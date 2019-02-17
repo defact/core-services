@@ -1,0 +1,29 @@
+{
+  "port": 4200,
+
+  "authentication": {
+    "jwt": {
+      "key": "secret"
+    }
+  },
+  
+  "sendgrid": { 
+    "apikey": "xyz"
+  },
+
+  "mail": {
+    "sendto": "johnny@recipher.co.uk"
+  },
+
+  "database": {
+    "type": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "username": "postgres",
+    "password": "",
+    "database": "defacto",
+    "entities": ["src/**/entities/**{.ts,.js}"],
+    "synchronize": true,
+    "logging": false
+  }
+}
