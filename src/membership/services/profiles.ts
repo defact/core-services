@@ -5,9 +5,12 @@ import { Profile } from '../../profiles/profile/entities/profile';
 import { User } from '../../security/user/entities/user';
 import { Access } from '../entities/access';
 import { ProfileFindService } from '../../profiles/profile/services/find';
+import { ProfileEditService } from '../../profiles/profile/services/edit';
 import { UserFindService } from '../../security/user/services/find';
 
-export class UserWithProfiles extends User {
+export class UserWithProfiles {
+  id: number;
+  user: User;
   primary: number;
   profiles: Profile[];
 }
@@ -17,8 +20,8 @@ export class MembershipUserProfilesService {
   constructor(
     @InjectRepository(Access)
     private readonly repository: Repository<Access>,
-
     private readonly profile: ProfileFindService,
+    private readonly create: ProfileEditService,
     private readonly user: UserFindService,
   ) {}
 
@@ -27,11 +30,42 @@ export class MembershipUserProfilesService {
     return primary.length === 0 ? accesses[0].profile : primary[0].profile;
   }
 
-  async add(uid: number, pid: number): Promise<UserWithProfiles> {
-    const profile = await this.profile.findOne(pid);
-    const user = await this.user.findOne(uid);
+  async add(uid: number, data: any): Promise<UserWithProfiles> {
+    const profile = (data.id) 
+      ? await this.profile.findOne(data.id)
+      : await this.create.create({ name: data.name } as Profile);
 
-    if (profile === undefined || user === undefined) return;
+    return this.connect(uid, profile);
+  }
+
+  async setPrimary(uid: number, pid: number): Promise<UserWithProfiles> {
+    const user = await this.user.findOne(uid);
+    const profile =  await this.profile.findOne(pid);
+
+    if (user === undefined || profile === undefined) return;
+
+    const accesses = await this.repository.find({ isPrimary: true });
+    
+    Promise.all(accesses.map(async access => {
+      access.isPrimary = false;
+      return await this.repository.save(access);
+    }));
+
+    const access = accesses.find(a => a.user === uid && a.profile === pid);
+
+    this.repository.merge(access, { isPrimary: true });
+    await this.repository.save(access);
+
+    const profiles = await this.profile.findByIds(accesses.map(a => a.profile));
+
+    return { id: user.id, user, primary: this.primary(accesses), profiles } as UserWithProfiles;
+  }
+
+  async connect(uid: number, profile: Profile): Promise<UserWithProfiles> {
+    if (profile === undefined) return;
+
+    const user = await this.user.findOne(uid);
+    if (user === undefined) return;
 
     await this.repository.save({ user: user.id, profile: profile.id });
 
@@ -41,7 +75,7 @@ export class MembershipUserProfilesService {
     delete user.password;
     delete user.verificationCode;
 
-    return { ...user, primary: this.primary(accesses), profiles };
+    return { id: user.id, user, primary: this.primary(accesses), profiles } as UserWithProfiles;
   }  
 
   async list(uid: number): Promise<UserWithProfiles> {
@@ -54,11 +88,11 @@ export class MembershipUserProfilesService {
 
     const accesses = await this.repository.find({ user: user.id });
 
-    if (accesses.length === 0) return { ...user, primary: null, profiles: [] };
+    if (accesses.length === 0) return { user, primary: null, profiles: [] } as UserWithProfiles;
 
     const profiles = await this.profile.findByIds(accesses.map(a => a.profile));
 
-    return { ...user, primary: this.primary(accesses), profiles };
+    return { id: user.id, user, primary: this.primary(accesses), profiles } as UserWithProfiles;
   }
 }
 

@@ -2,7 +2,7 @@ import { Controller, Get, Request, UnauthorizedException, UseGuards } from '@nes
 import { ClaimGuard } from '../../common/guards/claim';
 import { MembershipUserProfilesService, UserWithProfiles } from '../services/profiles';
 
-interface UserWithProfilesResponse { user: UserWithProfiles };
+interface MemberResponse { member: UserWithProfiles };
 
 @Controller('membership')
 export class MembershipController {
@@ -12,11 +12,11 @@ export class MembershipController {
 
   @Get()
   @UseGuards(new ClaimGuard('user'))
-  async list(@Request() request: any) : Promise<UserWithProfilesResponse> {
+  async list(@Request() request: any) : Promise<MemberResponse> {
     const session = request.user;
     if (session === undefined) throw new UnauthorizedException(); // Shouldn't happen
-    const user = await this.profiles.list(session.id);
-    return { user };
+    const member = await this.profiles.list(session.id);
+    return { member };
   }
 }
 

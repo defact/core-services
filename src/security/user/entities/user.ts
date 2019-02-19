@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable, Index } from 'typeorm';
-import { Exclude } from 'class-transformer';
+import { Exclude, Expose } from 'class-transformer';
 import { IsEmail, IsNotEmpty } from 'class-validator';
 import { Role } from '../../role/entities/role';
 import { Key } from '../../common/key';
@@ -26,6 +26,11 @@ export class User {
   @Column({ length: 128, nullable: true })
   @Exclude()
   verificationCode: string;
+
+  @Expose()
+  get isVerified() {
+    return this.verificationCode === null;
+  }
 
   @Column({ default: false })
   forceChangePassword: boolean;

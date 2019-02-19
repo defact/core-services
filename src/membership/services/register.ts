@@ -27,10 +27,10 @@ export class MembershipRegistrationService {
 
     await this.repository.save({ user: user.id, profile: profile.id, isPrimary: true });
 
-    delete user.password;
-    delete user.verificationCode;
+    // delete user.password;
+    // delete user.verificationCode;
 
-    return { ...user, primary: profile.id, profiles: [ profile ] };
+    return { id: user.id, user, primary: profile.id, profiles: [ profile ] } as UserWithProfiles;
   }
 }
 

@@ -8,8 +8,11 @@ import { User } from '../../security/user/entities/user';
 import { Access } from '../entities/access';
 import { ProfileFindService } from '../../profiles/profile/services/find';
 import { UserFindService } from '../../security/user/services/find';
+import { UserEditService } from '../../security/user/services/edit';
 
-export class ProfileWithUsers extends Profile {
+export class ProfileWithUsers {
+  id: number;
+  profile: Profile;
   primary: number;
   users: User[];
 }
@@ -21,6 +24,7 @@ export class MembershipProfileUsersService {
     private readonly repository: Repository<Access>,
     private readonly profile: ProfileFindService,
     private readonly user: UserFindService,
+    private readonly create: UserEditService,
   ) {}
   
   private primary(accesses: Access[]): number {
@@ -32,18 +36,26 @@ export class MembershipProfileUsersService {
     return users.map(u => classToPlain(u));
   }
   
-  async add(pid: number, uid: number): Promise<ProfileWithUsers> {
-    const profile = await this.profile.findOne(pid);
-    const user = await this.user.findOne(uid);
+  async add(uid: number, data: any): Promise<ProfileWithUsers> {
+    const user = (data.id) 
+      ? await this.user.findOne(data.id)
+      : await this.create.create(data as User);
 
-    if (profile === undefined || user === undefined) return;
+    return this.connect(uid, user);
+  }
+
+  async connect(pid: number, user: User): Promise<ProfileWithUsers> {
+    if (user === undefined) return;
+
+    const profile = await this.profile.findOne(pid);
+    if (profile === undefined) return;
 
     await this.repository.save({ user: user.id, profile: profile.id });
 
     const accesses = await this.repository.find({ profile: profile.id });
     const users = await this.user.findByIds(accesses.map(a => a.user));
 
-    return { ...profile, primary: this.primary(accesses), users: this.clean(users) };
+    return { id: profile.id, profile, primary: this.primary(accesses), users: this.clean(users) };
   }
   
   async list(pid: number): Promise<ProfileWithUsers> {
@@ -53,11 +65,11 @@ export class MembershipProfileUsersService {
 
     const accesses = await this.repository.find({ profile: pid });
 
-    if (accesses.length === 0) return { ...profile, primary: null, users: [] };
+    if (accesses.length === 0) return { id: profile.id, profile, primary: null, users: [] };
 
     const users = await this.user.findByIds(accesses.map(a => a.user));
 
-    return { ...profile, primary: this.primary(accesses), users: this.clean(users) };
+    return { id: profile.id, profile, primary: this.primary(accesses), users: this.clean(users) };
   }
 }
 

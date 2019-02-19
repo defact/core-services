@@ -2,7 +2,7 @@ import { Controller, Post, Body, Param, ParseIntPipe, Get, NotFoundException } f
 import { ClaimGuard } from '../../common/guards/claim';
 import { MembershipUserProfilesService, UserWithProfiles } from '../services/profiles';
 
-interface UserWithProfilesResponse { user: UserWithProfiles };
+interface MemberResponse { member: UserWithProfiles };
 
 @Controller('memberships/:uid/profiles')
 export class MembershipUserProfilesController {
@@ -12,18 +12,18 @@ export class MembershipUserProfilesController {
 
   @Post()
   // @UseGuards(new ClaimGuard('user'))
-  async add(@Param('uid', ParseIntPipe) uid: number, @Body() data: any) : Promise<UserWithProfilesResponse> {
-    const user = await this.profiles.add(uid, data.id);
-    if (user === undefined) throw new NotFoundException('User not found');
-    return { user };
+  async add(@Param('uid', ParseIntPipe) uid: number, @Body() data: any) : Promise<MemberResponse> {
+    const member = await this.profiles.add(uid, data);
+    if (member === undefined) throw new NotFoundException('Member not found');
+    return { member };
   }
 
   @Get()
   // @UseGuards(new ClaimGuard('user'))
-  async list(@Param('uid', ParseIntPipe) uid: number) : Promise<UserWithProfilesResponse> {
-    const user = await this.profiles.list(uid);
-    if (user === undefined) throw new NotFoundException('User not found');
-    return { user };
+  async list(@Param('uid', ParseIntPipe) uid: number) : Promise<MemberResponse> {
+    const member = await this.profiles.list(uid);
+    if (member === undefined) throw new NotFoundException('Member not found');
+    return { member };
   }
 }
 
