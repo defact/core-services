@@ -1,0 +1,61 @@
+import { Controller, Get, Post, Put, Patch, Delete, Body, Param, HttpCode, ParseIntPipe, UseGuards, NotFoundException } from '@nestjs/common';
+import { ClaimGuard } from '../../../common/guards/claim';
+import { ProfileFindService } from '../services/find';
+import { ProfileEditService } from '../services/edit';
+import { Profile } from '../entities/profile';
+
+interface ProfileResponse { profile: Profile };
+interface ProfilesResponse { profiles: Profile[] };
+
+@Controller('profiles')
+export class ProfilesController {
+  constructor(
+    private readonly finder: ProfileFindService,
+    private readonly editor: ProfileEditService
+  ) {}
+
+  @Post()
+  // @UseGuards(new ClaimGuard('profile'))
+  async create(@Body() data: Profile) : Promise<ProfileResponse> {
+    const profile = await this.editor.create(data);
+    return { profile };
+  }
+
+  @Get()
+  @UseGuards(new ClaimGuard('profile'))
+  async find(): Promise<ProfilesResponse> {
+    const profiles = await this.finder.find();
+    return { profiles };
+  }
+
+  @Get(':id')
+  @UseGuards(new ClaimGuard('profile'))
+  async findOne(@Param('id', ParseIntPipe) id: number): Promise<ProfileResponse> {
+    const profile = await this.finder.findOne(id);
+    if (profile === undefined) throw new NotFoundException('Profile not found');
+    return { profile };
+  }
+
+  @Put(':id')
+  @UseGuards(new ClaimGuard('profile'))
+  async update(@Param('id', ParseIntPipe) id: number, @Body() data: Profile): Promise<ProfileResponse> {
+    const profile = await this.editor.update(id, data);
+    return { profile };
+  }
+
+  @Patch(':id')
+  @UseGuards(new ClaimGuard('profile'))
+  async patch(@Param('id', ParseIntPipe) id: number, @Body() data: Profile): Promise<ProfileResponse> {
+    const profile = await this.editor.update(id, data);
+    return { profile };
+  }
+
+  @Delete(':id')
+  @UseGuards(new ClaimGuard('profile'))
+  @HttpCode(204)
+  async remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    await this.editor.remove(id);
+  }
+}
+
+export default ProfilesController;

@@ -1,0 +1,42 @@
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable, Index } from 'typeorm';
+import { Exclude } from 'class-transformer';
+import { IsEmail, IsNotEmpty } from 'class-validator';
+import { Role } from '../../role/entities/role';
+import { Key } from '../../common/key';
+
+@Entity()
+export class User {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({ length: 32 })
+  @Index({ unique: true })
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
+
+  @Column({ length: 32 })
+  @IsNotEmpty()
+  name: string;
+
+  @Column({ length: 128 })
+  @Exclude()
+  password: string;
+
+  @Column({ length: 128, nullable: true })
+  @Exclude()
+  verificationCode: string;
+
+  @Column({ default: false })
+  forceChangePassword: boolean;
+
+  @Column({ default: false })
+  isLocked: boolean;
+
+  @ManyToMany(type => Role)
+  @JoinTable()
+  roles: Role[];
+
+  @Column(type => Key)
+  key: Key;
+}

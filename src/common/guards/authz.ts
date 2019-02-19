@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
-import { User } from '../../security/users/entities/user';
-import { Role, Claim, Right, Permission } from '../../security/roles/entities/role';
+import { User } from '../../security/user/entities/user';
+import { Role } from '../../security/role/entities/role';
+import { Claim, Right, Permission } from '../../security/common/claim';
 
 interface Options {
   user?: User,

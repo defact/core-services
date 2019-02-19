@@ -4,7 +4,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { Right } from '../../security/roles/entities/role';
+import { Right } from '../../security/common/claim';
 import { Authorize } from './authz';
 
 @Injectable()

@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
-import { UsersModule } from './users/module';
-import { RolesModule } from './roles/module';
-import { GroupsModule } from './groups/module';
-import { SessionsModule } from './sessions/module';
+import { UserModule } from './user/module';
+import { RoleModule } from './role/module';
+import { GroupModule } from './group/module';
+import { AuthenticationModule } from './authentication/module';
 
 @Module({
   imports: [
-    UsersModule,
-    RolesModule,
-    GroupsModule,
-    SessionsModule,
+    UserModule,
+    RoleModule,
+    GroupModule,
+    AuthenticationModule,
   ],
 })
 export class SecurityModule {}
