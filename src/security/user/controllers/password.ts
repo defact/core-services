@@ -1,8 +1,7 @@
 import { Controller, Post, Param, ParseIntPipe, UseGuards, NotFoundException, Body, Delete, HttpCode } from '@nestjs/common';
-import { ClaimGuard } from '../../../common/guards/claim';
+import { ClaimGuard, Entity, Right } from '../../common/claim';
 import { PasswordService } from '../services/password';
 import { User } from '../entities/user';
-import { Right } from '../../common/claim';
 import { Password } from '../dto/password';
 
 interface UserResponse { user: User };
@@ -12,7 +11,7 @@ export class PasswordController {
   constructor(private readonly password: PasswordService) {}
 
   @Post()
-  @UseGuards(new ClaimGuard('user', Right.Update))
+  @UseGuards(new ClaimGuard(Entity.User, Right.Update))
   async change(@Param('id', ParseIntPipe) id: number, @Body() password: Password) : Promise<UserResponse> {
     const user = await this.password.change(id, password);
     if (user === undefined) throw new NotFoundException('User not found');
@@ -21,7 +20,7 @@ export class PasswordController {
 
   @Delete()
   @HttpCode(204)
-  // @UseGuards(new ClaimGuard('user', Right.Update))
+  @UseGuards(new ClaimGuard(Entity.User, Right.Update))
   async reset(@Param('id', ParseIntPipe) id: number) : Promise<void> {
     const user = await this.password.reset(id);
     if (user === undefined) throw new NotFoundException('User not found');

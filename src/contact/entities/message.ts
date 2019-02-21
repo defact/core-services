@@ -6,7 +6,7 @@ export class Message {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ length: 32 })
+  @Column({ length: 128 })
   @IsEmail()
   @IsNotEmpty()
   from: string;

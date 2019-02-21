@@ -1,9 +1,7 @@
 {
   "name": "@defacto/core-services",
-  "version": "0.0.0",
-  "description": "description",
-  "author": "",
-  "license": "MIT",
+  "version": "0.1.0",
+  "author": "Johnny Hall",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "format": "prettier --write \"src/**/*.ts\"",
@@ -14,7 +12,10 @@
     "start:prod": "node dist/main.js",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "test": "mocha -r tsconfig-paths/register -r ts-node/register src/**/*.spec.ts",
-    "test:e2e": "mocha -r tsconfig-paths/register -r ts-node/register test/**/*.spec.ts"
+    "test:e2e": "mocha -r tsconfig-paths/register -r ts-node/register test/**/*.spec.ts",
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "migrate:up": "npm run typeorm migration:run",
+    "migrate:down": "npm run typeorm migration:revert"
   },
   "dependencies": {
     "@nestjs/common": "^5.4.0",

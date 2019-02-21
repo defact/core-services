@@ -1,3 +1,8 @@
+export enum Entity {
+  User = 'user',
+  Group = 'group'
+}
+
 export enum Right {
   Nothing = 0,
   Create = 1,
@@ -13,4 +18,4 @@ export enum Permission {
   FullAccess = Right.Read | Right.Update | Right.Create | Right.Destroy,
 }
 
-export interface Claim { entity: string, right: Right };
+export interface Claim { entity: Entity, right: Right };

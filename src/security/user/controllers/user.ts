@@ -1,5 +1,5 @@
-import { Controller, Get, Request, UseGuards, NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { ClaimGuard } from '../../../common/guards/claim';
+import { Controller, Get, Request, UseGuards, UnauthorizedException } from '@nestjs/common';
+import { ClaimGuard, Entity } from '../../common/claim';
 import { User } from '../entities/user';
 import { UserFindService } from '../services/find';
 
@@ -12,7 +12,7 @@ export class UserController {
   ) {}
 
   @Get()
-  @UseGuards(new ClaimGuard('user'))
+  @UseGuards(new ClaimGuard(Entity.User))
   async current(@Request() request: any): Promise<UserResponse> {
     const session = request.user;
     if (session === undefined) throw new UnauthorizedException(); // Shouldn't happen

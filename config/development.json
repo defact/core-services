@@ -24,6 +24,10 @@
     "database": "defacto",
     "entities": ["src/**/entities/**{.ts,.js}"],
     "synchronize": true,
-    "logging": false
+    "logging": false,
+    "migrations": ["migrations/*.ts"],
+    "cli": {
+      "migrationsDir": "migrations"
+    }
   }
 }

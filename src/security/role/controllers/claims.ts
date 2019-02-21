@@ -1,6 +1,6 @@
-import { Controller, Get, Post, Delete, Body, Param, ParseIntPipe, NotFoundException } from '@nestjs/common';
+import { Controller, Post, Delete, Body, Param, ParseIntPipe, NotFoundException } from '@nestjs/common';
 import { ClaimsService } from '../services/claims';
-import { Role } from '../../roles/entities/role';
+import { Role } from '../entities/role';
 import { Claim } from '../../common/claim';
 
 interface RoleResponse { role: Role };
