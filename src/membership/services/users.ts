@@ -13,7 +13,7 @@ import { UserEditService } from '../../security/user/services/edit';
 export class ProfileWithUsers {
   id: number;
   profile: Profile;
-  primary: number;
+  primaryUser: number;
   users: User[];
 }
 
@@ -55,7 +55,7 @@ export class MembershipProfileUsersService {
     const accesses = await this.repository.find({ profile: profile.id });
     const users = await this.user.findByIds(accesses.map(a => a.user));
 
-    return { id: profile.id, profile, primary: this.primary(accesses), users: this.clean(users) };
+    return { id: profile.id, profile, primaryUser: this.primary(accesses), users: this.clean(users) };
   }
   
   async list(pid: number): Promise<ProfileWithUsers> {
@@ -65,11 +65,11 @@ export class MembershipProfileUsersService {
 
     const accesses = await this.repository.find({ profile: pid });
 
-    if (accesses.length === 0) return { id: profile.id, profile, primary: null, users: [] };
+    if (accesses.length === 0) return { id: profile.id, profile, primaryUser: null, users: [] };
 
     const users = await this.user.findByIds(accesses.map(a => a.user));
 
-    return { id: profile.id, profile, primary: this.primary(accesses), users: this.clean(users) };
+    return { id: profile.id, profile, primaryUser: this.primary(accesses), users: this.clean(users) };
   }
 }
 

@@ -11,7 +11,7 @@ import { UserFindService } from '../../security/user/services/find';
 export class UserWithProfiles {
   id: number;
   user: User;
-  primary: number;
+  primaryProfile: number;
   profiles: Profile[];
 }
 
@@ -58,7 +58,7 @@ export class MembershipUserProfilesService {
 
     const profiles = await this.profile.findByIds(accesses.map(a => a.profile));
 
-    return { id: user.id, user, primary: this.primary(accesses), profiles } as UserWithProfiles;
+    return { id: user.id, user, primaryProfile: this.primary(accesses), profiles } as UserWithProfiles;
   }
 
   async connect(uid: number, profile: Profile): Promise<UserWithProfiles> {
@@ -75,7 +75,7 @@ export class MembershipUserProfilesService {
     delete user.password;
     delete user.verificationCode;
 
-    return { id: user.id, user, primary: this.primary(accesses), profiles } as UserWithProfiles;
+    return { id: user.id, user, primaryProfile: this.primary(accesses), profiles } as UserWithProfiles;
   }  
 
   async list(uid: number): Promise<UserWithProfiles> {
@@ -83,16 +83,13 @@ export class MembershipUserProfilesService {
 
     if (user === undefined) return;
 
-    delete user.password;
-    delete user.verificationCode;
-
     const accesses = await this.repository.find({ user: user.id });
 
-    if (accesses.length === 0) return { user, primary: null, profiles: [] } as UserWithProfiles;
+    if (accesses.length === 0) return { user, primaryProfile: null, profiles: [] } as UserWithProfiles;
 
     const profiles = await this.profile.findByIds(accesses.map(a => a.profile));
 
-    return { id: user.id, user, primary: this.primary(accesses), profiles } as UserWithProfiles;
+    return { id: user.id, user, primaryProfile: this.primary(accesses), profiles } as UserWithProfiles;
   }
 }
 

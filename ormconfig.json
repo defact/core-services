@@ -4,9 +4,9 @@
   "port": 5432,
   "username": "postgres",
   "password": "",
-  "database": "johnny",
+  "database": "defacto",
   "entities": ["src/**/entities/**{.ts,.js}"],
-  "synchronize": true,
+  "synchronize": false,
   "logging": false,
   "migrations": ["migrations/*.ts"],
   "cli": {

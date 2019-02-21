@@ -15,10 +15,6 @@ export class User {
   @IsNotEmpty()
   email: string;
 
-  @Column({ length: 32 })
-  @IsNotEmpty()
-  name: string;
-
   @Column({ length: 128 })
   @Exclude()
   password: string;

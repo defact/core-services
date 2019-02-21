@@ -22,7 +22,7 @@ export class MembershipRegistrationService {
   async create(data: MembershipDto): Promise<UserWithProfiles> {
     const { email, name, password } = data;
 
-    const user = await this.user.create({ email, name, password } as User);
+    const user = await this.user.create({ email, password } as User);
     const profile = await this.profile.create({ name } as Profile);
 
     await this.repository.save({ user: user.id, profile: profile.id, isPrimary: true });
@@ -30,7 +30,7 @@ export class MembershipRegistrationService {
     // delete user.password;
     // delete user.verificationCode;
 
-    return { id: user.id, user, primary: profile.id, profiles: [ profile ] } as UserWithProfiles;
+    return { id: user.id, user, primaryProfile: profile.id, profiles: [ profile ] } as UserWithProfiles;
   }
 }
 

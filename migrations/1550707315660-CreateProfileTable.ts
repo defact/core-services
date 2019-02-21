@@ -21,11 +21,13 @@ export class CreateProfileTable1550707315660 implements MigrationInterface {
         {
           name: 'dob',
           type: 'timestamp',
+          isNullable: true,
         },
         {
           name: 'classifier',
           type: 'varchar',
           length: '32',
+          isNullable: true,
         },
         {
           name: 'keyStart',
