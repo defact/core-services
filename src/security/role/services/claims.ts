@@ -29,8 +29,8 @@ export class ClaimsService {
     return this.editor.update(role.id, role);
   }
 
-  async remove(id: number, entity: Entity): Promise<Role> {
-    return this.set(id, { entity, right: Right.Nothing });
+  async remove(id: number, entity: string): Promise<Role> {
+    return this.set(id, { entity: entity as Entity, right: Right.Nothing });
   }
 }
 
