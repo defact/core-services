@@ -3,18 +3,18 @@ import { RoleFindService } from '../services/find';
 import { RoleEditService } from '../services/edit';
 import { Role } from '../entities/role';
 
-interface RoleResponse { role: Role };
-interface RolesResponse { roles: Role[] };
+interface RoleResponse { role: Role; }
+interface RolesResponse { roles: Role[]; }
 
 @Controller('roles')
 export class RolesController {
   constructor(
     private readonly finder: RoleFindService,
-    private readonly editor: RoleEditService
+    private readonly editor: RoleEditService,
   ) {}
 
   @Post()
-  async create(@Body() data: Role) : Promise<RoleResponse> {
+  async create(@Body() data: Role): Promise<RoleResponse> {
     const role = await this.editor.create(data);
     return { role };
   }
@@ -28,21 +28,21 @@ export class RolesController {
   @Get(':id')
   async findOne(@Param('id', ParseIntPipe) id: number): Promise<RoleResponse> {
     const role = await this.finder.findOne(id);
-    if (role === undefined) throw new NotFoundException('Role not found');
+    if (role === undefined) { throw new NotFoundException('Role not found'); }
     return { role };
   }
 
   @Put(':id')
   async update(@Param('id', ParseIntPipe) id: number, @Body() data: Role): Promise<RoleResponse> {
     const role = await this.editor.update(id, data);
-    if (role === undefined) throw new NotFoundException('Role not found');
+    if (role === undefined) { throw new NotFoundException('Role not found'); }
     return { role };
   }
 
   @Patch(':id')
   async patch(@Param('id', ParseIntPipe) id: number, @Body() data: Role): Promise<RoleResponse> {
     const role = await this.editor.update(id, data);
-    if (role === undefined) throw new NotFoundException('Role not found');
+    if (role === undefined) { throw new NotFoundException('Role not found'); }
     return { role };
   }
 

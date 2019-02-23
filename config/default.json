@@ -1,5 +1,19 @@
 {
+  "authentication": {
+    "jwt": {
+      "key": "secret"
+    }
+  },
+
   "providers": {
     "mail": "sendgrid"
+  },
+  
+  "sendgrid": { 
+    "apikey": "xyz"
+  },
+
+  "mail": {
+    "sendto": "johnny@recipher.co.uk"
   }
 }

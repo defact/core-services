@@ -11,7 +11,7 @@ export class CreateMessageTable1550707340662 implements MigrationInterface {
           type: 'integer',
           isPrimary: true,
           isGenerated: true,
-          generationStrategy: 'increment'
+          generationStrategy: 'increment',
         },
         {
           name: 'from',
@@ -32,8 +32,8 @@ export class CreateMessageTable1550707340662 implements MigrationInterface {
           name: 'sentAt',
           type: 'timestamp',
         },
-      ]
-    }), true);    
+      ],
+    }), true);
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {

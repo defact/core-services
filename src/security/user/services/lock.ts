@@ -9,11 +9,11 @@ export class UserLockService {
     private readonly finder: UserFindService,
     private readonly editor: UserEditService,
   ) {}
-  
+
   async lock(id: number): Promise<User> {
     const user = await this.finder.findOne(id);
 
-    if (user === undefined) return;
+    if (user === undefined) { return; }
 
     user.isLocked = !user.isLocked;
 

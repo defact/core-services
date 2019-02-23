@@ -3,7 +3,7 @@ import { ClaimGuard, Entity } from '../../common/claim';
 import { User } from '../entities/user';
 import { UserFindService } from '../services/find';
 
-interface UserResponse { user: User };
+interface UserResponse { user: User; }
 
 @Controller('user')
 export class UserController {
@@ -15,7 +15,7 @@ export class UserController {
   @UseGuards(new ClaimGuard(Entity.User))
   async current(@Request() request: any): Promise<UserResponse> {
     const session = request.user;
-    if (session === undefined) throw new UnauthorizedException(); // Shouldn't happen
+    if (session === undefined) { throw new UnauthorizedException(); } // Shouldn't happen
     const user = await this.finder.findOne(session.id); // refresh
     return { user };
   }

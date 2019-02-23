@@ -4,7 +4,7 @@ import { Repository, In } from 'typeorm';
 import { User } from '../entities/user';
 
 export interface UserQueryOptions {
-  email: string
+  email: string;
 }
 
 @Injectable()
@@ -13,10 +13,10 @@ export class UserFindService {
     @InjectRepository(User)
     private readonly repository: Repository<User>,
   ) {}
-  
+
   async findOne(id: number): Promise<User> {
     return this.repository.findOne(id, { relations: ['roles'] });
-  }  
+  }
 
   async findOneByEmail(email: string): Promise<User> {
     return this.repository.findOne({ email }, { relations: ['roles'] });
@@ -31,7 +31,7 @@ export class UserFindService {
   }
 
   async findByIds(ids: number[]): Promise<User[]> {
-    if (ids.length === 0) return [];
+    if (ids.length === 0) { return []; }
     return this.repository.find({ where: { id: In(ids), relations: ['roles'] }});
   }
 }

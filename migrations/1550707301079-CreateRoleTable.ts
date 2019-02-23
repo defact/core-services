@@ -10,7 +10,7 @@ export class CreateRoleTable1550707301079 implements MigrationInterface {
           type: 'integer',
           isPrimary: true,
           isGenerated: true,
-          generationStrategy: 'increment'
+          generationStrategy: 'increment',
         },
         {
           name: 'name',
@@ -23,8 +23,8 @@ export class CreateRoleTable1550707301079 implements MigrationInterface {
           isNullable: true,
           default: '\'[]\'',
         },
-      ]
-    }), true);  
+      ],
+    }), true);
 
     await queryRunner.createIndex('role', new TableIndex({
       name: 'IDX_ROLE_NAME',

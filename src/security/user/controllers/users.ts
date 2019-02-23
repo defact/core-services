@@ -5,19 +5,19 @@ import { UserEditService } from '../services/edit';
 import { User } from '../entities/user';
 import * as qs from 'querystring';
 
-interface UserResponse { user: User };
-interface UsersResponse { users: User[] };
+interface UserResponse { user: User; }
+interface UsersResponse { users: User[]; }
 
 @Controller('users')
 export class UsersController {
   constructor(
     private readonly finder: UserFindService,
-    private readonly editor: UserEditService
+    private readonly editor: UserEditService,
   ) {}
 
   @Post()
   @UseGuards(new ClaimGuard(Entity.User))
-  async create(@Body() data: User) : Promise<UserResponse> {
+  async create(@Body() data: User): Promise<UserResponse> {
     const user = await this.editor.create(data);
     return { user };
   }
@@ -33,7 +33,7 @@ export class UsersController {
   @UseGuards(new ClaimGuard(Entity.User))
   async findOne(@Param('id', ParseIntPipe) id: number): Promise<UserResponse> {
     const user = await this.finder.findOne(id);
-    if (user === undefined) throw new NotFoundException('User not found');
+    if (user === undefined) { throw new NotFoundException('User not found'); }
     return { user };
   }
 

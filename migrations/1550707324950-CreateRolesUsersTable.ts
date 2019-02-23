@@ -10,7 +10,7 @@ export class CreateRolesUsersTable1550707324950 implements MigrationInterface {
           name: 'userId',
           type: 'integer',
           isNullable: false,
-          isPrimary: true
+          isPrimary: true,
         },
         {
           name: 'roleId',
@@ -18,8 +18,8 @@ export class CreateRolesUsersTable1550707324950 implements MigrationInterface {
           isNullable: false,
           isPrimary: true,
         },
-      ]
-    }), true);    
+      ],
+    }), true);
 
     await queryRunner.createForeignKey('user_roles_role', new TableForeignKey({
       columnNames: [ 'roleId' ],

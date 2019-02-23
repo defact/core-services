@@ -3,7 +3,7 @@ import { ClaimGuard, Entity, Right } from '../../common/claim';
 import { UserLockService } from '../services/lock';
 import { User } from '../entities/user';
 
-interface UserResponse { user: User };
+interface UserResponse { user: User; }
 
 @Controller('users/:id/lock')
 export class LockController {
@@ -11,9 +11,9 @@ export class LockController {
 
   @Post()
   @UseGuards(new ClaimGuard(Entity.User, Right.Update))
-  async lock(@Param('id', ParseIntPipe) id: number) : Promise<UserResponse> {
+  async lock(@Param('id', ParseIntPipe) id: number): Promise<UserResponse> {
     const user = await this.locker.lock(id);
-    if (user === undefined) throw new NotFoundException('User not found');
+    if (user === undefined) { throw new NotFoundException('User not found'); }
     return { user };
   }
 }

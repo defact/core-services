@@ -19,4 +19,4 @@ export enum Permission {
   FullAccess = Right.Read | Right.Update | Right.Create | Right.Destroy,
 }
 
-export interface Claim { entity: Entity, right: Right };
+export interface Claim { entity: Entity; right: Right; }

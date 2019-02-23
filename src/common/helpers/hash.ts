@@ -15,7 +15,7 @@ export class Hasher {
   }
 
   verify(compareTo: string, token: string): boolean {
-    if (compareTo == null) return false;
+    if (compareTo == null) { return false; }
     return bcrypt.compareSync(token, compareTo);
   }
 }

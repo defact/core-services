@@ -13,7 +13,7 @@ export class UserEditService {
     private readonly hash: Hasher,
     private readonly token: Tokenizer,
   ) {}
-  
+
   async create(data: User): Promise<User> {
     if (data.password === undefined) {
       data.password = this.token.generate(12);
@@ -26,23 +26,24 @@ export class UserEditService {
     try {
       const user = await this.repository.save(data);
       return user;
-    } catch(err) {
-      if (err instanceof QueryFailedError)
+    } catch (err) {
+      if (err instanceof QueryFailedError) {
         throw new ConflictException('Email address already registered');
+      }
       throw err;
     }
   }
 
   async update(id: number, data: User): Promise<User> {
     const user: User = await this.repository.findOne(id);
-    if (user === undefined) return;
+    if (user === undefined) { return; }
     this.repository.merge(user, data);
     return this.repository.save(user);
   }
 
   async remove(id: number): Promise<User> {
     const user: User = await this.repository.findOne(id);
-    if (user === undefined) return;
+    if (user === undefined) { return; }
     return this.repository.remove(user);
   }
 }

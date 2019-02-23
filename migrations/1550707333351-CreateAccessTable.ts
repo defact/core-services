@@ -10,7 +10,7 @@ export class CreateAccessTable1550707333351 implements MigrationInterface {
           name: 'user',
           type: 'integer',
           isNullable: false,
-          isPrimary: true
+          isPrimary: true,
         },
         {
           name: 'profile',
@@ -23,8 +23,8 @@ export class CreateAccessTable1550707333351 implements MigrationInterface {
           type: 'boolean',
           default: false,
         },
-      ]
-    }), true);    
+      ],
+    }), true);
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {

@@ -10,7 +10,7 @@ export class CreateUserTable1550707307915 implements MigrationInterface {
           type: 'integer',
           isPrimary: true,
           isGenerated: true,
-          generationStrategy: 'increment'
+          generationStrategy: 'increment',
         },
         {
           name: 'email',
@@ -50,8 +50,8 @@ export class CreateUserTable1550707307915 implements MigrationInterface {
           default: 9999,
           isNullable: false,
         },
-      ]
-    }), true);  
+      ],
+    }), true);
 
     await queryRunner.createIndex('user', new TableIndex({
       name: 'IDX_USER_EMAIL',

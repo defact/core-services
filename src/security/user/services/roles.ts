@@ -12,19 +12,19 @@ export class RolesService {
     private readonly finder: UserFindService,
     private readonly editor: UserEditService,
   ) {}
-  
+
   async add(uid: number, rid: number): Promise<User> {
     const role: Role = await this.roles.findOne(rid);
     const user: User = await this.finder.findOne(uid);
 
-    if (user === undefined) return;
-    if (user === undefined) return user;
+    if (user === undefined) { return; }
+    if (user === undefined) { return user; }
 
     const contains: boolean = (user.roles.some((role: Role) => {
       return role.id === rid;
     }));
 
-    if (contains === true) return user;
+    if (contains === true) { return user; }
 
     user.roles.push(role);
 
@@ -34,13 +34,13 @@ export class RolesService {
   async remove(uid: number, rid: number): Promise<User> {
     const user = await this.finder.findOne(uid);
 
-    if (user === undefined) return;
+    if (user === undefined) { return; }
 
     const roles: Role[] = (user.roles.filter((role: Role) => {
       return role.id !== rid;
     }));
-    
-    if (user.roles.length === roles.length) return user;
+
+    if (user.roles.length === roles.length) { return user; }
 
     user.roles = roles;
 

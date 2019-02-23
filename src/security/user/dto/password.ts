@@ -1,5 +1,5 @@
 export class Password {
-  password: string
-  confirmation?: string
-  isTemporary?: boolean
+  password: string;
+  confirmation?: string;
+  isTemporary?: boolean;
 }

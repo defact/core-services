@@ -11,7 +11,7 @@ export class CreateProfileTable1550707315660 implements MigrationInterface {
           type: 'integer',
           isPrimary: true,
           isGenerated: true,
-          generationStrategy: 'increment'
+          generationStrategy: 'increment',
         },
         {
           name: 'name',
@@ -41,12 +41,12 @@ export class CreateProfileTable1550707315660 implements MigrationInterface {
           default: 9999,
           isNullable: false,
         },
-      ]
-    }), true);  
+      ],
+    }), true);
 
     await queryRunner.createIndex('profile', new TableIndex({
       name: 'IDX_PROFILE_KEY',
-      columnNames: [ 'keyStart', 'keyEnd' ]
+      columnNames: [ 'keyStart', 'keyEnd' ],
     }));
   }
 

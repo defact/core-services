@@ -14,17 +14,17 @@ export class PasswordService {
     private readonly hash: Hasher,
     private readonly token: Tokenizer,
   ) {}
-  
+
   async change(id: number, password: Password): Promise<User> {
     const user = await this.finder.findOne(id);
 
-    if (user === undefined) return;
+    if (user === undefined) { return; }
 
     user.password = this.hash.generate(password.password).hash;
     user.forceChangePassword = !!password.isTemporary;
 
     return this.editor.update(user.id, user);
-  }  
+  }
 
   async reset(id: number): Promise<User> {
     const password: string = this.token.generate(12);

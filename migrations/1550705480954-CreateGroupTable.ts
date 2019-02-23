@@ -11,9 +11,9 @@ export class CreateGroupTable1550705480954 implements MigrationInterface {
           type: 'integer',
           isPrimary: true,
           isGenerated: true,
-          generationStrategy: 'increment'
+          generationStrategy: 'increment',
         },
-        { 
+        {
           name: 'name',
           type: 'varchar',
           length: '32',
@@ -35,8 +35,8 @@ export class CreateGroupTable1550705480954 implements MigrationInterface {
           type: 'integer',
           isNullable: true,
         },
-      ]
-    }), true);  
+      ],
+    }), true);
 
     await queryRunner.createIndex('group', new TableIndex({
       name: 'IDX_GROUP_NAME',
