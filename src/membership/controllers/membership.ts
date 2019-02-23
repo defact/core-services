@@ -1,5 +1,5 @@
 import { Controller, Get, Request, UnauthorizedException, UseGuards } from '@nestjs/common';
-import { ClaimGuard } from '../../common/guards/claim';
+import { ClaimGuard, Entity } from '../../security/common/claim';
 import { MembershipUserProfilesService, UserWithProfiles } from '../services/profiles';
 
 interface MemberResponse { member: UserWithProfiles };
@@ -11,7 +11,7 @@ export class MembershipController {
   ) {}
 
   @Get()
-  @UseGuards(new ClaimGuard('user'))
+  @UseGuards(new ClaimGuard(Entity.User))
   async list(@Request() request: any) : Promise<MemberResponse> {
     const session = request.user;
     if (session === undefined) throw new UnauthorizedException(); // Shouldn't happen

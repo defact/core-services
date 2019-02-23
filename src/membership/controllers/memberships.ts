@@ -1,5 +1,5 @@
-import { Controller, Post, Body } from '@nestjs/common';
-import { ClaimGuard } from '../../common/guards/claim';
+import { Controller, Post, Body, UseGuards } from '@nestjs/common';
+import { ClaimGuard, Entity } from '../../security/common/claim';
 import { MembershipDto } from '../dto/membership';
 import { MembershipRegistrationService } from '../services/register';
 import { UserWithProfiles } from '../services/profiles';
@@ -13,7 +13,7 @@ export class MembershipsController {
   ) {}
 
   @Post()
-  // @UseGuards(new ClaimGuard('user'))
+  @UseGuards(new ClaimGuard(Entity.User))
   async create(@Body() data: MembershipDto) : Promise<UserWithProfilesResponse> {
     const user = await this.register.create(data);
     return { user };

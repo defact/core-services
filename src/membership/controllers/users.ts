@@ -1,5 +1,5 @@
-import { Controller, Post, Body, Param, ParseIntPipe, Get, NotFoundException } from '@nestjs/common';
-import { ClaimGuard } from '../../common/guards/claim';
+import { Controller, Post, Body, Param, ParseIntPipe, Get, NotFoundException, UseGuards } from '@nestjs/common';
+import { ClaimGuard, Entity } from '../../security/common/claim';
 import { MembershipProfileUsersService, ProfileWithUsers } from '../services/users';
 
 interface MemberResponse { member: ProfileWithUsers };
@@ -11,7 +11,7 @@ export class MembershipProfileUsersController {
   ) {}
 
   @Post()
-  // @UseGuards(new ClaimGuard('membership'))
+  @UseGuards(new ClaimGuard(Entity.User))
   async add(@Param('pid', ParseIntPipe) uid: number, @Body() data: any) : Promise<MemberResponse> {
     const member = await this.users.add(uid, data.id);
     if (member === undefined) throw new NotFoundException('Member not found');
@@ -19,7 +19,7 @@ export class MembershipProfileUsersController {
   }
 
   @Get()
-  // @UseGuards(new ClaimGuard('membership'))
+  @UseGuards(new ClaimGuard(Entity.User))
   async list(@Param('pid', ParseIntPipe) pid: number) : Promise<MemberResponse> {
     const member = await this.users.list(pid);
     if (member === undefined) throw new NotFoundException('Member not found');

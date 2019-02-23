@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Put, Patch, Delete, Body, Param, HttpCode, ParseIntPipe, UseGuards, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Post, Put, Patch, Delete, Body, Param, HttpCode, ParseIntPipe, UseGuards, NotFoundException, Query } from '@nestjs/common';
 import { ClaimGuard, Entity } from '../../common/claim';
-import { UserFindService } from '../services/find';
+import { UserFindService, UserQueryOptions } from '../services/find';
 import { UserEditService } from '../services/edit';
 import { User } from '../entities/user';
+import * as qs from 'querystring';
 
 interface UserResponse { user: User };
 interface UsersResponse { users: User[] };
@@ -23,8 +24,8 @@ export class UsersController {
 
   @Get()
   @UseGuards(new ClaimGuard(Entity.User))
-  async find(): Promise<UsersResponse> {
-    const users = await this.finder.find();
+  async find(@Query() query: UserQueryOptions): Promise<UsersResponse> {
+    const users = await this.finder.find(query);
     return { users };
   }
 

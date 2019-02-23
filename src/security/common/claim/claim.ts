@@ -1,6 +1,7 @@
 export enum Entity {
   User = 'user',
-  Group = 'group'
+  Group = 'group',
+  Profile = 'profile',
 }
 
 export enum Right {
