@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { RoleFindService } from './find';
 import { RoleEditService } from './edit';
 import { Role } from '../entities/role';
-import { Claim } from '../../common/claim';
+import { Claim, Right, Entity } from '../../common/claim';
 
 @Injectable()
 export class ClaimsService {
@@ -29,8 +29,8 @@ export class ClaimsService {
     return this.editor.update(role.id, role);
   }
 
-  async remove(id: number, entity: string): Promise<Role> {
-    return this.set(id, { entity, right: 0 });
+  async remove(id: number, entity: Entity): Promise<Role> {
+    return this.set(id, { entity, right: Right.Nothing });
   }
 }
 

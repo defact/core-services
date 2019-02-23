@@ -39,7 +39,8 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^2.6.2",
     "rxjs": "^6.2.2",
-    "sql.js": "^0.5.0",
+    "ts-loader": "^4.4.2",
+    "ts-node": "^7.0.1",
     "typeorm": "^0.2.12",
     "typescript": "^3.0.1"
   },
@@ -53,25 +54,10 @@
     "mocha": "^5.2.0",
     "nodemon": "^1.18.3",
     "prettier": "^1.14.2",
+    "sql.js": "^0.5.0",
     "supertest": "^3.1.0",
     "testdouble": "^3.10.0",
-    "ts-loader": "^4.4.2",
-    "ts-node": "^7.0.1",
     "tsconfig-paths": "^3.5.0",
     "tslint": "5.11.0"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "rootDir": "src",
-    "testRegex": ".spec.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    },
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
   }
 }
