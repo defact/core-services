@@ -13,16 +13,16 @@ export class AuthenticationService {
     private readonly code: CodeAuthenticator,
     private readonly token: TokenService,
   ) {}
-  
+
   async signOn(session: Session): Promise<string> {
     const authenticator: Authenticator = {
       password: this.password,
       code: this.code,
     }[session.strategy || 'password'];
-    
+
     const user: User = await authenticator.verify(session);
 
-    if (user === undefined || user.isLocked) throw new UnauthorizedException('Invalid credentials');
+    if (user === undefined || user.isLocked) { throw new UnauthorizedException('Invalid credentials'); }
 
     return this.token.generate(user);
   }

@@ -20,7 +20,7 @@ import { Role } from './entities/role';
     PermissionsController,
   ],
   providers: [
-    RoleFindService, 
+    RoleFindService,
     RoleEditService,
     ClaimsService,
   ],

@@ -11,15 +11,15 @@ import { Profile } from './entities/profile';
     HttpModule.register({ timeout: 5000 }),
   ],
   controllers: [
-    ProfilesController, 
+    ProfilesController,
   ],
   providers: [
-    ProfileFindService, 
-    ProfileEditService, 
+    ProfileFindService,
+    ProfileEditService,
   ],
   exports: [
     ProfileFindService,
     ProfileEditService,
-  ]
+  ],
 })
 export class ProfileModule {}

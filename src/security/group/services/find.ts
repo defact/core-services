@@ -9,7 +9,7 @@ export class GroupFindService {
     @InjectRepository(Group)
     private readonly repository: Repository<Group>,
   ) {}
-  
+
   async findOne(id: number): Promise<Group> {
     return this.repository.findOne(id);
   }

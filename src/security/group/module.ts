@@ -13,7 +13,7 @@ import { Group } from './entities/group';
     GroupsController,
   ],
   providers: [
-    GroupFindService, 
+    GroupFindService,
     GroupEditService,
   ],
   exports: [

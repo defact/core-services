@@ -26,18 +26,18 @@ export class MembershipProfileUsersService {
     private readonly user: UserFindService,
     private readonly create: UserEditService,
   ) {}
-  
+
   private primary(accesses: Access[]): number {
     const primary = accesses.filter(a => a.isPrimary);
     return primary.length === 0 ? accesses[0].user : primary[0].user;
-  }  
+  }
 
   private clean(users: User[]): any[] {
     return users.map(u => classToPlain(u));
   }
-  
+
   async add(uid: number, data: any): Promise<ProfileWithUsers> {
-    const user = (data.id) 
+    const user = (data.id)
       ? await this.user.findOne(data.id)
       : await this.create.create(data as User);
 
@@ -45,10 +45,10 @@ export class MembershipProfileUsersService {
   }
 
   async connect(pid: number, user: User): Promise<ProfileWithUsers> {
-    if (user === undefined) return;
+    if (user === undefined) { return; }
 
     const profile = await this.profile.findOne(pid);
-    if (profile === undefined) return;
+    if (profile === undefined) { return; }
 
     await this.repository.save({ user: user.id, profile: profile.id });
 
@@ -57,15 +57,15 @@ export class MembershipProfileUsersService {
 
     return { id: profile.id, profile, primaryUser: this.primary(accesses), users: this.clean(users) };
   }
-  
+
   async list(pid: number): Promise<ProfileWithUsers> {
     const profile = await this.profile.findOne(pid);
 
-    if (profile === undefined) return;
+    if (profile === undefined) { return; }
 
     const accesses = await this.repository.find({ profile: pid });
 
-    if (accesses.length === 0) return { id: profile.id, profile, primaryUser: null, users: [] };
+    if (accesses.length === 0) { return { id: profile.id, profile, primaryUser: null, users: [] }; }
 
     const users = await this.user.findByIds(accesses.map(a => a.user));
 

@@ -19,16 +19,16 @@ export class SendMailService {
     const provider = config.get('providers:mail');
 
     this.sender = {
-      sendgrid: this.sendgrid
+      sendgrid: this.sendgrid,
     }[provider];
   }
-  
+
   async send(data: Message): Promise<Message> {
     data.sentAt = new Date;
 
     try {
       await this.sender.send(data);
-    } catch(err) {
+    } catch (err) {
 
     }
     return await this.repository.save(data);

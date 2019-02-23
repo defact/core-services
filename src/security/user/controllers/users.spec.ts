@@ -4,7 +4,7 @@ import UsersController from './users';
 
 const replace = (path: string) => {
   return new (td.constructor(td.replace(path).default));
-}
+};
 
 describe('UsersController', () => {
   beforeEach(async () => {

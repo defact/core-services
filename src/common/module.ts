@@ -11,6 +11,6 @@ import { Tokenizer } from './helpers/token';
   exports: [
     Hasher,
     Tokenizer,
-  ]
+  ],
 })
 export class CommonModule {}

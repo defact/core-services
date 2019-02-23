@@ -18,7 +18,7 @@ export class MembershipRegistrationService {
     private readonly profile: ProfileEditService,
     private readonly user: UserEditService,
   ) {}
-  
+
   async create(data: MembershipDto): Promise<UserWithProfiles> {
     const { email, name, password } = data;
 

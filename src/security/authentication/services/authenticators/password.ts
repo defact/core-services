@@ -10,14 +10,14 @@ export class PasswordAuthenticator {
     private readonly finder: UserFindService,
     private readonly hash: Hasher,
   ) {}
-  
+
   async verify(session: Session): Promise<User> {
     const user: User = await this.finder.findOneByEmail(session.email);
 
-    if (user === undefined) return;
-    if (user.isLocked) return;
-    if (this.hash.verify(user.password, session.password) === false) return;
-  
+    if (user === undefined) { return; }
+    if (user.isLocked) { return; }
+    if (this.hash.verify(user.password, session.password) === false) { return; }
+
     return user;
   }
 }

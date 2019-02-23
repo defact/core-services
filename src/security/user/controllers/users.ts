@@ -3,7 +3,6 @@ import { ClaimGuard, Entity } from '../../common/claim';
 import { UserFindService, UserQueryOptions } from '../services/find';
 import { UserEditService } from '../services/edit';
 import { User } from '../entities/user';
-import * as qs from 'querystring';
 
 interface UserResponse { user: User; }
 interface UsersResponse { users: User[]; }
@@ -27,6 +26,13 @@ export class UsersController {
   async find(@Query() query: UserQueryOptions): Promise<UsersResponse> {
     const users = await this.finder.find(query);
     return { users };
+  }
+
+  @Get('email/:email')
+  async findByEmail(@Param('email') email: string): Promise<UserResponse> {
+    const user = await this.finder.findOneByEmail(email);
+    if (user === undefined) { throw new NotFoundException('User not found'); }
+    return { user };
   }
 
   @Get(':id')

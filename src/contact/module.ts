@@ -10,14 +10,14 @@ import { SendGridMailer } from './services/providers/sendgrid';
     TypeOrmModule.forFeature([Message]),
   ],
   controllers: [
-    MessagesController, 
+    MessagesController,
   ],
   providers: [
-    SendMailService, 
+    SendMailService,
     SendGridMailer,
   ],
   exports: [
     SendMailService,
-  ]
+  ],
 })
 export class ContactModule {}

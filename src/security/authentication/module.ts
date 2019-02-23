@@ -23,13 +23,13 @@ const config = new ConfigurationService();
     UserModule,
   ],
   controllers: [
-    SessionController, 
-    SessionsController, 
+    SessionController,
+    SessionsController,
   ],
   providers: [
-    AuthenticationService, 
-    PasswordAuthenticator, 
-    CodeAuthenticator, 
+    AuthenticationService,
+    PasswordAuthenticator,
+    CodeAuthenticator,
     TokenService,
     JwtStrategy,
   ],

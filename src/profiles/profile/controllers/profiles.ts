@@ -4,19 +4,19 @@ import { ProfileFindService } from '../services/find';
 import { ProfileEditService } from '../services/edit';
 import { Profile } from '../entities/profile';
 
-interface ProfileResponse { profile: Profile };
-interface ProfilesResponse { profiles: Profile[] };
+interface ProfileResponse { profile: Profile; }
+interface ProfilesResponse { profiles: Profile[]; }
 
 @Controller('profiles')
 export class ProfilesController {
   constructor(
     private readonly finder: ProfileFindService,
-    private readonly editor: ProfileEditService
+    private readonly editor: ProfileEditService,
   ) {}
 
   @Post()
   // @UseGuards(new ClaimGuard('profile'))
-  async create(@Body() data: Profile) : Promise<ProfileResponse> {
+  async create(@Body() data: Profile): Promise<ProfileResponse> {
     const profile = await this.editor.create(data);
     return { profile };
   }
@@ -32,7 +32,7 @@ export class ProfilesController {
   @UseGuards(new ClaimGuard(Entity.Profile))
   async findOne(@Param('id', ParseIntPipe) id: number): Promise<ProfileResponse> {
     const profile = await this.finder.findOne(id);
-    if (profile === undefined) throw new NotFoundException('Profile not found');
+    if (profile === undefined) { throw new NotFoundException('Profile not found'); }
     return { profile };
   }
 

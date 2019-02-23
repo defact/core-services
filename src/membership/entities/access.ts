@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class Access {
-  @PrimaryColumn()  
+  @PrimaryColumn()
   user: number;
 
   @PrimaryColumn()

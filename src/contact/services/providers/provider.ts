@@ -1,5 +1,5 @@
-import { Message } from "../../entities/message";
+import { Message } from '../../entities/message';
 
 export interface MailProvider {
-  send(message: Message): Promise<void>
+  send(message: Message): Promise<void>;
 }

@@ -8,7 +8,7 @@ export class SendGridMailer {
   constructor(private readonly config: ConfigurationService) {
     sendgrid.setApiKey(this.config.get('sendgrid:apikey'));
   }
-  
+
   async send(data: Message): Promise<void> {
     const mail = {
       from: data.from,

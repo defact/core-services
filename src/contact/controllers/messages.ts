@@ -2,7 +2,7 @@ import { Controller, Post, Body } from '@nestjs/common';
 import { SendMailService } from '../services/send';
 import { Message } from '../entities/message';
 
-interface MessageResponse { message: Message };
+interface MessageResponse { message: Message; }
 
 @Controller('messages')
 export class MessagesController {
@@ -11,7 +11,7 @@ export class MessagesController {
   ) {}
 
   @Post()
-  async create(@Body() data: Message) : Promise<MessageResponse> {
+  async create(@Body() data: Message): Promise<MessageResponse> {
     const message = await this.sender.send(data);
     return { message };
   }

@@ -22,15 +22,15 @@ import { RoleModule } from '../role/module';
     RoleModule,
   ],
   controllers: [
-    UsersController, 
-    UserController, 
+    UsersController,
+    UserController,
     RolesController,
     LockController,
     PasswordController,
   ],
   providers: [
-    UserFindService, 
-    UserEditService, 
+    UserFindService,
+    UserEditService,
     RolesService,
     UserLockService,
     PasswordService,
@@ -38,6 +38,6 @@ import { RoleModule } from '../role/module';
   exports: [
     UserFindService,
     UserEditService,
-  ]
+  ],
 })
 export class UserModule {}

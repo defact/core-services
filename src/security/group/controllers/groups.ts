@@ -3,18 +3,18 @@ import { GroupFindService } from '../services/find';
 import { GroupEditService } from '../services/edit';
 import { Group } from '../entities/group';
 
-interface GroupResponse { group: Group };
-interface GroupsResponse { groups: Group[] };
+interface GroupResponse { group: Group; }
+interface GroupsResponse { groups: Group[]; }
 
 @Controller('groups')
 export class GroupsController {
   constructor(
     private readonly finder: GroupFindService,
-    private readonly editor: GroupEditService
+    private readonly editor: GroupEditService,
   ) {}
 
   @Post()
-  async create(@Body() data: Group) : Promise<GroupResponse> {
+  async create(@Body() data: Group): Promise<GroupResponse> {
     const group = await this.editor.create(data);
     return { group };
   }
@@ -28,21 +28,21 @@ export class GroupsController {
   @Get(':id')
   async findOne(@Param('id', ParseIntPipe) id: number): Promise<GroupResponse> {
     const group = await this.finder.findOne(id);
-    if (group === undefined) throw new NotFoundException('Group not found');
+    if (group === undefined) { throw new NotFoundException('Group not found'); }
     return { group };
   }
 
   @Put(':id')
   async update(@Param('id', ParseIntPipe) id: number, @Body() data: Group): Promise<GroupResponse> {
     const group = await this.editor.update(id, data);
-    if (group === undefined) throw new NotFoundException('Group not found');
+    if (group === undefined) { throw new NotFoundException('Group not found'); }
     return { group };
   }
 
   @Patch(':id')
   async patch(@Param('id', ParseIntPipe) id: number, @Body() data: Group): Promise<GroupResponse> {
     const group = await this.editor.update(id, data);
-    if (group === undefined) throw new NotFoundException('Group not found');
+    if (group === undefined) { throw new NotFoundException('Group not found'); }
     return { group };
   }
 

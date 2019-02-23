@@ -31,7 +31,7 @@ export class MembershipUserProfilesService {
   }
 
   async add(uid: number, data: any): Promise<UserWithProfiles> {
-    const profile = (data.id) 
+    const profile = (data.id)
       ? await this.profile.findOne(data.id)
       : await this.create.create({ name: data.name } as Profile);
 
@@ -42,10 +42,10 @@ export class MembershipUserProfilesService {
     const user = await this.user.findOne(uid);
     const profile =  await this.profile.findOne(pid);
 
-    if (user === undefined || profile === undefined) return;
+    if (user === undefined || profile === undefined) { return; }
 
     const accesses = await this.repository.find({ isPrimary: true });
-    
+
     Promise.all(accesses.map(async access => {
       access.isPrimary = false;
       return await this.repository.save(access);
@@ -62,10 +62,10 @@ export class MembershipUserProfilesService {
   }
 
   async connect(uid: number, profile: Profile): Promise<UserWithProfiles> {
-    if (profile === undefined) return;
+    if (profile === undefined) { return; }
 
     const user = await this.user.findOne(uid);
-    if (user === undefined) return;
+    if (user === undefined) { return; }
 
     await this.repository.save({ user: user.id, profile: profile.id });
 
@@ -76,16 +76,16 @@ export class MembershipUserProfilesService {
     delete user.verificationCode;
 
     return { id: user.id, user, primaryProfile: this.primary(accesses), profiles } as UserWithProfiles;
-  }  
+  }
 
   async list(uid: number): Promise<UserWithProfiles> {
     const user = await this.user.findOne(uid);
 
-    if (user === undefined) return;
+    if (user === undefined) { return; }
 
     const accesses = await this.repository.find({ user: user.id });
 
-    if (accesses.length === 0) return { user, primaryProfile: null, profiles: [] } as UserWithProfiles;
+    if (accesses.length === 0) { return { user, primaryProfile: null, profiles: [] } as UserWithProfiles; }
 
     const profiles = await this.profile.findByIds(accesses.map(a => a.profile));
 
