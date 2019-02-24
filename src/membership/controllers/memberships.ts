@@ -13,7 +13,7 @@ export class MembershipsController {
   ) {}
 
   @Post()
-  @UseGuards(new ClaimGuard(Entity.User))
+  // @UseGuards(new ClaimGuard(Entity.User))
   async create(@Body() data: MembershipDto): Promise<UserWithProfilesResponse> {
     const user = await this.register.create(data);
     return { user };
