@@ -4,7 +4,7 @@ export class CreateMessageTable1550707340662 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<any> {
     await queryRunner.createTable(new Table({
-      name: 'role',
+      name: 'message',
       columns: [
         {
           name: 'id',
