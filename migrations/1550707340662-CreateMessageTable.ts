@@ -19,6 +19,11 @@ export class CreateMessageTable1550707340662 implements MigrationInterface {
           length: '128',
         },
         {
+          name: 'to',
+          type: 'varchar',
+          length: '128',
+        },
+        {
           name: 'message',
           type: 'varchar',
           length: '512',

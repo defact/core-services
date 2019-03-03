@@ -1,15 +1,20 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { IsEmail, IsNotEmpty } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsDate } from 'class-validator';
 
 @Entity()
 export class Message {
   @PrimaryGeneratedColumn()
-  id: number;
+  id?: number;
 
   @Column({ length: 128 })
   @IsEmail()
   @IsNotEmpty()
   from: string;
+
+  @Column({ length: 128 })
+  @IsEmail()
+  @IsNotEmpty()
+  to: string;
 
   @Column({ length: 512 })
   message: string;
@@ -18,5 +23,7 @@ export class Message {
   subject: string;
 
   @Column()
-  sentAt: Date;
+  @IsDate()
+  @IsNotEmpty()
+  sentAt?: Date;
 }

@@ -20,14 +20,12 @@ export class CreateGroupTable1550705480954 implements MigrationInterface {
         },
         {
           name: 'keyStart',
-          type: 'integer',
-          default: 0,
+          type: 'bigint',
           isNullable: false,
         },
         {
           name: 'keyEnd',
-          type: 'integer',
-          default: 9999,
+          type: 'bigint',
           isNullable: false,
         },
         {

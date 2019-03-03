@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import { UserFindService } from './find';
 import { UserEditService } from './edit';
 import { RoleFindService } from '../../role/services/find';
@@ -10,6 +10,7 @@ export class RolesService {
   constructor(
     private readonly roles: RoleFindService,
     private readonly finder: UserFindService,
+    @Inject(forwardRef(() => UserEditService))
     private readonly editor: UserEditService,
   ) {}
 
@@ -18,7 +19,7 @@ export class RolesService {
     const user: User = await this.finder.findOne(uid);
 
     if (user === undefined) { return; }
-    if (user === undefined) { return user; }
+    if (role === undefined) { return user; }
 
     const contains: boolean = (user.roles.some((role: Role) => {
       return role.id === rid;
@@ -29,6 +30,11 @@ export class RolesService {
     user.roles.push(role);
 
     return this.editor.update(user.id, user);
+  }
+
+  async addDefault(uid: number): Promise<User> {
+    const role: Role = await this.roles.findDefault();
+    return this.add(uid, role.id);
   }
 
   async remove(uid: number, rid: number): Promise<User> {

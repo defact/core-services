@@ -40,14 +40,12 @@ export class CreateUserTable1550707307915 implements MigrationInterface {
         },
         {
           name: 'keyStart',
-          type: 'integer',
-          default: 0,
+          type: 'bigint',
           isNullable: false,
         },
         {
           name: 'keyEnd',
-          type: 'integer',
-          default: 9999,
+          type: 'bigint',
           isNullable: false,
         },
       ],

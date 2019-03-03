@@ -1,16 +1,22 @@
-import { Injectable, ConflictException } from '@nestjs/common';
+import { Injectable, forwardRef, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, QueryFailedError } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Profile } from '../entities/profile';
+import { ProfileGroupService } from './group';
 
 @Injectable()
 export class ProfileEditService {
   constructor(
     @InjectRepository(Profile)
     private readonly repository: Repository<Profile>,
+    @Inject(forwardRef(() => ProfileGroupService))
+    private readonly group: ProfileGroupService,    
   ) {}
 
   async create(data: Profile): Promise<Profile> {
+    const group = await this.group.findDefault();
+    data.key = group.key; // TODO use context
+
     return await this.repository.save(data);
   }
 

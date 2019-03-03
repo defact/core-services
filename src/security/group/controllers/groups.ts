@@ -1,5 +1,5 @@
-import { Controller, Get, Post, Put, Patch, Delete, Body, Param, HttpCode, ParseIntPipe, NotFoundException } from '@nestjs/common';
-import { GroupFindService } from '../services/find';
+import { Controller, Get, Post, Put, Patch, Delete, Body, Param, HttpCode, ParseIntPipe, NotFoundException, Query } from '@nestjs/common';
+import { GroupFindService, GroupQueryOptions } from '../services/find';
 import { GroupEditService } from '../services/edit';
 import { Group } from '../entities/group';
 
@@ -20,8 +20,8 @@ export class GroupsController {
   }
 
   @Get()
-  async find(): Promise<GroupsResponse> {
-    const groups = await this.finder.find();
+  async find(@Query() query: GroupQueryOptions): Promise<GroupsResponse> {
+    const groups = await this.finder.find(query);
     return { groups };
   }
 

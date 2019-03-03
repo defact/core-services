@@ -15,7 +15,7 @@ export class UsersController {
   ) {}
 
   @Post()
-  @UseGuards(new ClaimGuard(Entity.User))
+  // @UseGuards(new ClaimGuard(Entity.User))
   async create(@Body() data: User): Promise<UserResponse> {
     const user = await this.editor.create(data);
     return { user };

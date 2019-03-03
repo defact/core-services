@@ -2,18 +2,24 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, QueryFailedError } from 'typeorm';
 import { Group } from '../entities/group';
+import KeyService from './key';
 
 @Injectable()
 export class GroupEditService {
   constructor(
     @InjectRepository(Group)
     private readonly repository: Repository<Group>,
+    private readonly key: KeyService,
   ) {}
 
   async create(data: Group): Promise<Group> {
     try {
-      const group = await this.repository.save(data);
-      return group;
+      const parent = await this.repository.findOne(data.parent, { relations: ['children'] });
+
+      data.parent = parent;
+      data.key = this.key.determine(parent);
+      
+      return await this.repository.save(data);
     } catch (err) {
       if (err instanceof QueryFailedError) {
         throw new BadRequestException('Duplicate group name');

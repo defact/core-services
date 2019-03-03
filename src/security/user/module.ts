@@ -8,11 +8,13 @@ import { PasswordController } from './controllers/password';
 import { UserFindService } from './services/find';
 import { UserEditService } from './services/edit';
 import { RolesService } from './services/roles';
+import { GroupService } from './services/group';
 import { UserLockService } from './services/lock';
 import { PasswordService } from './services/password';
 import { User } from './entities/user';
 import { Role } from '../role/entities/role';
 import { RoleModule } from '../role/module';
+import { GroupModule } from '../group/module';
 
 @Module({
   imports: [
@@ -20,6 +22,7 @@ import { RoleModule } from '../role/module';
     TypeOrmModule.forFeature([Role]),
     HttpModule.register({ timeout: 5000 }),
     RoleModule,
+    GroupModule,
   ],
   controllers: [
     UsersController,
@@ -32,6 +35,7 @@ import { RoleModule } from '../role/module';
     UserFindService,
     UserEditService,
     RolesService,
+    GroupService,
     UserLockService,
     PasswordService,
   ],

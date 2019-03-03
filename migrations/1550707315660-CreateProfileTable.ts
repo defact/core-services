@@ -31,14 +31,12 @@ export class CreateProfileTable1550707315660 implements MigrationInterface {
         },
         {
           name: 'keyStart',
-          type: 'integer',
-          default: 0,
+          type: 'bigint',
           isNullable: false,
         },
         {
           name: 'keyEnd',
-          type: 'integer',
-          default: 9999,
+          type: 'bigint',
           isNullable: false,
         },
       ],

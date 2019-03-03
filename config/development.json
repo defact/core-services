@@ -12,7 +12,7 @@
   },
 
   "mail": {
-    "sendto": "johnny@recipher.co.uk"
+    "sender": "johnny@recipher.co.uk"
   },
 
   "database": {

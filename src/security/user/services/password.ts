@@ -28,7 +28,7 @@ export class PasswordService {
 
   async reset(id: number): Promise<User> {
     const password: string = this.token.generate(12);
-    console.log(password);
+
     return this.change(id, { password, isTemporary: true });
   }
 }

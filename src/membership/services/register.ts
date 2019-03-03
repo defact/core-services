@@ -8,6 +8,7 @@ import { Access } from '../entities/access';
 import { UserWithProfiles } from './profiles';
 import { ProfileEditService } from '../../profiles/profile/services/edit';
 import { UserEditService } from '../../security/user/services/edit';
+import { EmailRegistrationService } from './email';
 
 @Injectable()
 export class MembershipRegistrationService {
@@ -17,6 +18,7 @@ export class MembershipRegistrationService {
 
     private readonly profile: ProfileEditService,
     private readonly user: UserEditService,
+    private readonly email: EmailRegistrationService,
   ) {}
 
   async create(data: MembershipDto): Promise<UserWithProfiles> {
@@ -27,8 +29,7 @@ export class MembershipRegistrationService {
 
     await this.repository.save({ user: user.id, profile: profile.id, isPrimary: true });
 
-    // delete user.password;
-    // delete user.verificationCode;
+    await this.email.send(user);
 
     return { id: user.id, user, primaryProfile: profile.id, profiles: [ profile ] } as UserWithProfiles;
   }

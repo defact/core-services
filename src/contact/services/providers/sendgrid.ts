@@ -12,7 +12,7 @@ export class SendGridMailer {
   async send(data: Message): Promise<void> {
     const mail = {
       from: data.from,
-      to: this.config.get('mail:sendto'),
+      to: data.to,
       subject: data.subject,
       text: data.message,
     };

@@ -1,6 +1,8 @@
-import { Injectable, ConflictException } from '@nestjs/common';
+import { Injectable, ConflictException, Inject, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, QueryFailedError } from 'typeorm';
+import { RolesService } from './roles';
+import { GroupService } from './group';
 import { Hasher } from '../../../common/helpers/hash';
 import { Tokenizer } from '../../../common/helpers/token';
 import { User } from '../entities/user';
@@ -10,6 +12,10 @@ export class UserEditService {
   constructor(
     @InjectRepository(User)
     private readonly repository: Repository<User>,
+    @Inject(forwardRef(() => RolesService))
+    private readonly role: RolesService,
+    @Inject(forwardRef(() => GroupService))
+    private readonly group: GroupService,
     private readonly hash: Hasher,
     private readonly token: Tokenizer,
   ) {}
@@ -23,10 +29,15 @@ export class UserEditService {
     data.password = this.hash.generate(data.password).hash;
     data.verificationCode = this.token.generate(8);
 
+    const group = await this.group.findDefault(); // TODO in context of logged in user
+
+    data.key = group.key;
+
     try {
       const user = await this.repository.save(data);
-      return user;
+      return this.role.addDefault(user.id);
     } catch (err) {
+      console.log(err)
       if (err instanceof QueryFailedError) {
         throw new ConflictException('Email address already registered');
       }
