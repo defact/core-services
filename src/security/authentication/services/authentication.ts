@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Authenticator } from './authenticators/authenticator';
 import { PasswordAuthenticator } from './authenticators/password';
 import { CodeAuthenticator } from './authenticators/code';
@@ -22,7 +22,7 @@ export class AuthenticationService {
 
     const user: User = await authenticator.verify(session);
 
-    if (user === undefined || user.isLocked) { throw new UnauthorizedException('Invalid credentials'); }
+    if (user === undefined || user.isLocked) { throw new NotFoundException('Invalid credentials'); }
 
     return this.token.generate(user);
   }

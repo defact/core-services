@@ -6,6 +6,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { Entity, Right } from './claim';
 import { Authorize } from './authorize';
+import { TokenExpiredError } from 'jsonwebtoken';
 
 @Injectable()
 export class ClaimGuard extends AuthGuard('jwt') {
@@ -31,7 +32,11 @@ export class ClaimGuard extends AuthGuard('jwt') {
     return super.canActivate(context);
   }
 
-  handleRequest(err: Error, user: any) {
+  handleRequest(err: Error, user: any, info: Error) {
+    if (info instanceof TokenExpiredError) {
+      throw new UnauthorizedException('Token expired');
+    }
+
     if (err) { throw err; }
     if (!user) { throw new UnauthorizedException(); }
 
