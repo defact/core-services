@@ -6,8 +6,8 @@ const hash = new Hasher();
 export class InsertDefaultData1550707357383 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<any> {
-    const systemGroup = await queryRunner.query(`INSERT INTO "group" ("name", "keyStart", "keyEnd") VALUES ('system', 0, 9999999999999999) RETURNING id`);
-    const guestGroup = await queryRunner.query(`INSERT INTO "group" ("name", "keyStart", "keyEnd", "parentId") VALUES ('guest', 0, 99999999999999, $1)`, [ systemGroup[0].id ]);
+    const systemGroup = await queryRunner.query(`INSERT INTO "group" ("name", "keyStart", "keyEnd") VALUES ('System', 0, 9999999999999999) RETURNING id`);
+    const guestGroup = await queryRunner.query(`INSERT INTO "group" ("name", "keyStart", "keyEnd", "parentId") VALUES ('Guest', 0, 99999999999999, $1)`, [ systemGroup[0].id ]);
 
     const systemRole = await queryRunner.query(`INSERT INTO "role" ("name", "claims") VALUES ('system', '[{"entity":"user","right":15},{"entity":"group","right":15}]') RETURNING id`);
     const guestRole = await queryRunner.query(`INSERT INTO "role" ("name", "claims") VALUES ('guest', '[{"entity":"user","right":3}]') RETURNING id`);
