@@ -30,14 +30,14 @@ export class GroupEditService {
 
   async update(id: number, data: Group): Promise<Group> {
     const group: Group = await this.repository.findOne(id);
-    if (group === undefined) { return; }
+    if (group === undefined || group.isFixed) { return; }
     this.repository.merge(group, data);
     return this.repository.save(group);
   }
 
   async remove(id: number): Promise<Group> {
     const group: Group = await this.repository.findOne(id);
-    if (group === undefined) { return; }
+    if (group === undefined || group.isFixed) { return; }
     return this.repository.remove(group);
   }
 }

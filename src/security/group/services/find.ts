@@ -19,7 +19,7 @@ export class GroupFindService {
   }
 
   async findDefault(): Promise<Group> {
-    return this.repository.findOne({ name: 'guest' }, { relations: ['children'] });
+    return this.repository.findOne({ name: 'Guest' }, { relations: ['children'] });
   }
 
   async find(query?: GroupQueryOptions): Promise<Group[]> {

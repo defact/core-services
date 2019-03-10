@@ -23,6 +23,11 @@ export class CreateRoleTable1550707301079 implements MigrationInterface {
           isNullable: true,
           default: '\'[]\'',
         },
+        {
+          name: 'isFixed',
+          type: 'boolean',
+          default: false,
+        },
       ],
     }), true);
 

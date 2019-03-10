@@ -48,6 +48,11 @@ export class CreateUserTable1550707307915 implements MigrationInterface {
           type: 'bigint',
           isNullable: false,
         },
+        {
+          name: 'isFixed',
+          type: 'boolean',
+          default: false,
+        },
       ],
     }), true);
 

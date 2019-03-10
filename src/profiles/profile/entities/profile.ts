@@ -19,4 +19,7 @@ export class Profile {
 
   @Column(type => Key)
   key: Key;
+
+  @Column({ default: false })
+  isFixed: boolean;
 }

@@ -22,14 +22,14 @@ export class ProfileEditService {
 
   async update(id: number, data: Profile): Promise<Profile> {
     const profile: Profile = await this.repository.findOne(id);
-    if (profile === undefined) { return; }
+    if (profile === undefined || profile.isFixed) { return; }
     this.repository.merge(profile, data);
     return this.repository.save(profile);
   }
 
   async remove(id: number): Promise<Profile> {
     const profile: Profile = await this.repository.findOne(id);
-    if (profile === undefined) { return; }
+    if (profile === undefined || profile.isFixed) { return; }
     return this.repository.remove(profile);
   }
 }

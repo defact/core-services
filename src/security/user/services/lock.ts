@@ -13,7 +13,7 @@ export class UserLockService {
   async lock(id: number): Promise<User> {
     const user = await this.finder.findOne(id);
 
-    if (user === undefined) { return; }
+    if (user === undefined || user.isFixed) { return; }
 
     user.isLocked = !user.isLocked;
 

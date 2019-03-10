@@ -7,6 +7,8 @@ import { Hasher } from '../../../common/helpers/hash';
 import { Tokenizer } from '../../../common/helpers/token';
 import { User } from '../entities/user';
 
+interface EditOptions { force: boolean };
+
 @Injectable()
 export class UserEditService {
   constructor(
@@ -37,7 +39,6 @@ export class UserEditService {
       const user = await this.repository.save(data);
       return this.role.addDefault(user.id);
     } catch (err) {
-      console.log(err)
       if (err instanceof QueryFailedError) {
         throw new ConflictException('Email address already registered');
       }
@@ -45,16 +46,16 @@ export class UserEditService {
     }
   }
 
-  async update(id: number, data: User): Promise<User> {
+  async update(id: number, data: User, options: EditOptions): Promise<User> {
     const user: User = await this.repository.findOne(id);
-    if (user === undefined) { return; }
+    if (user === undefined || (user.isFixed && !options.force)) { return; }
     this.repository.merge(user, data);
     return this.repository.save(user);
   }
 
   async remove(id: number): Promise<User> {
     const user: User = await this.repository.findOne(id);
-    if (user === undefined) { return; }
+    if (user === undefined || user.isFixed) { return; }
     return this.repository.remove(user);
   }
 }

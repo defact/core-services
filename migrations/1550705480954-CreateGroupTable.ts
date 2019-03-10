@@ -33,6 +33,11 @@ export class CreateGroupTable1550705480954 implements MigrationInterface {
           type: 'integer',
           isNullable: true,
         },
+        {
+          name: 'isFixed',
+          type: 'boolean',
+          default: false,
+        },
       ],
     }), true);
 

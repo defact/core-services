@@ -14,4 +14,7 @@ export class Role {
 
   @Column('json', { default: [] })
   claims: Claim[];
+
+  @Column({ default: false })
+  isFixed: boolean;
 }

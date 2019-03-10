@@ -39,6 +39,11 @@ export class CreateProfileTable1550707315660 implements MigrationInterface {
           type: 'bigint',
           isNullable: false,
         },
+        {
+          name: 'isFixed',
+          type: 'boolean',
+          default: false,
+        },
       ],
     }), true);
 

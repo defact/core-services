@@ -24,14 +24,14 @@ export class RoleEditService {
 
   async update(id: number, data: Role): Promise<Role> {
     const role: Role = await this.repository.findOne(id);
-    if (role === undefined) { return; }
+    if (role === undefined || role.isFixed) { return; }
     this.repository.merge(role, data);
     return this.repository.save(role);
   }
 
   async remove(id: number): Promise<Role> {
     const role: Role = await this.repository.findOne(id);
-    if (role === undefined) { return; }
+    if (role === undefined || role.isFixed) { return; }
     return this.repository.remove(role);
   }
 }

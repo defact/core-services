@@ -20,4 +20,7 @@ export class Group {
 
   @OneToMany(type => Group, group => group.parent)
   children: Group[];
+
+  @Column({ default: false })
+  isFixed: boolean;
 }

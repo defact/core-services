@@ -19,7 +19,7 @@ export class CodeAuthenticator {
 
     user.verificationCode = null;
 
-    return this.editor.update(user.id, user);
+    return this.editor.update(user.id, user, { force: true });
   }
 }
 

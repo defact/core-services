@@ -6,20 +6,20 @@ const hash = new Hasher();
 export class InsertDefaultData1550707357383 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<any> {
-    const systemGroup = await queryRunner.query(`INSERT INTO "group" ("name", "keyStart", "keyEnd") VALUES ('System', 0, 9999999999999999) RETURNING id`);
-    const guestGroup = await queryRunner.query(`INSERT INTO "group" ("name", "keyStart", "keyEnd", "parentId") VALUES ('Guest', 0, 99999999999999, $1)`, [ systemGroup[0].id ]);
+    const systemGroup = await queryRunner.query(`INSERT INTO "group" ("name", "keyStart", "keyEnd", "isFixed") VALUES ('System', 0, 9999999999999999, TRUE) RETURNING id`);
+    const guestGroup = await queryRunner.query(`INSERT INTO "group" ("name", "keyStart", "keyEnd", "parentId", "isFixed") VALUES ('Guest', 0, 99999999999999, $1, TRUE)`, [ systemGroup[0].id ]);
 
-    const systemRole = await queryRunner.query(`INSERT INTO "role" ("name", "claims") VALUES ('system', '[{"entity":"user","right":15},{"entity":"group","right":15}]') RETURNING id`);
-    const guestRole = await queryRunner.query(`INSERT INTO "role" ("name", "claims") VALUES ('guest', '[{"entity":"user","right":3}]') RETURNING id`);
+    const systemRole = await queryRunner.query(`INSERT INTO "role" ("name", "claims", "isFixed") VALUES ('system', '[{"entity":"user","right":15},{"entity":"group","right":15}]', TRUE) RETURNING id`);
+    const guestRole = await queryRunner.query(`INSERT INTO "role" ("name", "claims", "isFixed") VALUES ('guest', '[{"entity":"user","right":3}]', TRUE) RETURNING id`);
 
-    const systemUser = await queryRunner.query(`INSERT INTO "user" ("email", "password", "keyStart", "keyEnd") VALUES ('system@recipher.co.uk', $1, 0, 9999999999999999) RETURNING id`, [ hash.generate('password').hash ]);
-    const guestUser = await queryRunner.query(`INSERT INTO "user" ("email", "password", "keyStart", "keyEnd") VALUES ('guest@recipher.co.uk', $1, 0, 99999999999999) RETURNING id`, [ hash.generate('password').hash ]);
+    const systemUser = await queryRunner.query(`INSERT INTO "user" ("email", "password", "keyStart", "keyEnd", "isFixed") VALUES ('system@recipher.co.uk', $1, 0, 9999999999999999, TRUE) RETURNING id`, [ hash.generate('password').hash ]);
+    const guestUser = await queryRunner.query(`INSERT INTO "user" ("email", "password", "keyStart", "keyEnd", "isFixed") VALUES ('guest@recipher.co.uk', $1, 0, 99999999999999, TRUE) RETURNING id`, [ hash.generate('password').hash ]);
 
     await queryRunner.query(`INSERT INTO "user_roles_role" ("userId", "roleId") VALUES ($1, $2)`, [ systemUser[0].id, systemRole[0].id ]);
     await queryRunner.query(`INSERT INTO "user_roles_role" ("userId", "roleId") VALUES ($1, $2)`, [ guestUser[0].id, guestRole[0].id ]);
 
-    const systemProfile = await queryRunner.query(`INSERT INTO "profile" ("name", "keyStart", "keyEnd") VALUES ('System', 0, 9999999999999999) RETURNING id`);
-    const guestProfile = await queryRunner.query(`INSERT INTO "profile" ("name", "keyStart", "keyEnd") VALUES ('Guest', 0, 99999999999999) RETURNING id`);
+    const systemProfile = await queryRunner.query(`INSERT INTO "profile" ("name", "keyStart", "keyEnd", "isFixed") VALUES ('System', 0, 9999999999999999, TRUE) RETURNING id`);
+    const guestProfile = await queryRunner.query(`INSERT INTO "profile" ("name", "keyStart", "keyEnd", "isFixed") VALUES ('Guest', 0, 99999999999999, TRUE) RETURNING id`);
 
     await queryRunner.query(`INSERT INTO "access" ("user", "profile") VALUES ($1, $2)`, [ systemUser[0].id, systemProfile[0].id ]);
     await queryRunner.query(`INSERT INTO "access" ("user", "profile") VALUES ($1, $2)`, [ guestUser[0].id, guestProfile[0].id ]);

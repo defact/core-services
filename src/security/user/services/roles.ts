@@ -18,7 +18,7 @@ export class RolesService {
     const role: Role = await this.roles.findOne(rid);
     const user: User = await this.finder.findOne(uid);
 
-    if (user === undefined) { return; }
+    if (user === undefined || user.isFixed) { return; }
     if (role === undefined) { return user; }
 
     const contains: boolean = (user.roles.some((role: Role) => {
@@ -40,7 +40,7 @@ export class RolesService {
   async remove(uid: number, rid: number): Promise<User> {
     const user = await this.finder.findOne(uid);
 
-    if (user === undefined) { return; }
+    if (user === undefined || user.isFixed) { return; }
 
     const roles: Role[] = (user.roles.filter((role: Role) => {
       return role.id !== rid;

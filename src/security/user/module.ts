@@ -5,12 +5,14 @@ import { UserController } from './controllers/user';
 import { RolesController } from './controllers/roles';
 import { LockController } from './controllers/lock';
 import { PasswordController } from './controllers/password';
+import { VerificationCodeController } from './controllers/code';
 import { UserFindService } from './services/find';
 import { UserEditService } from './services/edit';
 import { RolesService } from './services/roles';
 import { GroupService } from './services/group';
 import { UserLockService } from './services/lock';
 import { PasswordService } from './services/password';
+import { VerificationCodeService } from './services/code';
 import { User } from './entities/user';
 import { Role } from '../role/entities/role';
 import { RoleModule } from '../role/module';
@@ -30,6 +32,7 @@ import { GroupModule } from '../group/module';
     RolesController,
     LockController,
     PasswordController,
+    VerificationCodeController,
   ],
   providers: [
     UserFindService,
@@ -38,6 +41,7 @@ import { GroupModule } from '../group/module';
     GroupService,
     UserLockService,
     PasswordService,
+    VerificationCodeService,
   ],
   exports: [
     UserFindService,
