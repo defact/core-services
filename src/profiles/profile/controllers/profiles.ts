@@ -52,9 +52,9 @@ export class ProfilesController {
 
   @Delete(':id')
   @UseGuards(new ClaimGuard(Entity.Profile))
-  @HttpCode(204)
-  async remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
-    await this.editor.remove(id);
+  async remove(@Param('id', ParseIntPipe) id: number): Promise<ProfileResponse> {
+    const profile = await this.editor.remove(id);
+    return { profile };
   }
 }
 

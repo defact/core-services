@@ -23,4 +23,7 @@ export class Group {
 
   @Column({ default: false })
   isFixed: boolean;
+
+  @Column({ default: false })
+  isArchived: boolean;
 }

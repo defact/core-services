@@ -59,9 +59,9 @@ export class UsersController {
 
   @Delete(':id')
   @UseGuards(new ClaimGuard(Entity.User))
-  @HttpCode(204)
-  async remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
-    await this.editor.remove(id);
+  async remove(@Param('id', ParseIntPipe) id: number): Promise<UserResponse> {
+    const user = await this.editor.remove(id);
+    return { user };
   }
 }
 

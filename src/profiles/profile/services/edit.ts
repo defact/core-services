@@ -20,7 +20,7 @@ export class ProfileEditService {
     return await this.repository.save(data);
   }
 
-  async update(id: number, data: Profile): Promise<Profile> {
+  async update(id: number, data: Partial<Profile>): Promise<Profile> {
     const profile: Profile = await this.repository.findOne(id);
     if (profile === undefined || profile.isFixed) { return; }
     this.repository.merge(profile, data);
@@ -28,9 +28,7 @@ export class ProfileEditService {
   }
 
   async remove(id: number): Promise<Profile> {
-    const profile: Profile = await this.repository.findOne(id);
-    if (profile === undefined || profile.isFixed) { return; }
-    return this.repository.remove(profile);
+    return this.update(id, { isArchived: true });
   }
 }
 

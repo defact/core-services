@@ -47,9 +47,9 @@ export class RolesController {
   }
 
   @Delete(':id')
-  @HttpCode(204)
-  async remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
-    await this.editor.remove(id);
+  async remove(@Param('id', ParseIntPipe) id: number): Promise<RoleResponse> {
+    const role = await this.editor.remove(id);
+    return { role };
   }
 }
 

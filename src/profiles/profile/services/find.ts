@@ -3,6 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, In } from 'typeorm';
 import { Profile } from '../entities/profile';
 
+export interface ProfileQueryOptions {
+  name: string;
+  isArchived: boolean;
+}
+
 @Injectable()
 export class ProfileFindService {
   constructor(
@@ -14,13 +19,14 @@ export class ProfileFindService {
     return this.repository.findOne(id);
   }
 
-  async find(): Promise<Profile[]> {
-    return this.repository.find();
+  async find(query?: ProfileQueryOptions): Promise<Profile[]> {
+    query = { ...query, isArchived: false };
+    return this.repository.find({ where: query });
   }
 
   async findByIds(ids: number[]): Promise<Profile[]> {
     if (ids.length === 0) { return []; }
-    return this.repository.find({ where: { id: In(ids) }});
+    return this.repository.find({ where: { id: In(ids), isArchived: false }});
   }
 }
 

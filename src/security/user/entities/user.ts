@@ -43,4 +43,7 @@ export class User {
 
   @Column({ default: false })
   isFixed: boolean;
+
+  @Column({ default: false })
+  isArchived: boolean;
 }

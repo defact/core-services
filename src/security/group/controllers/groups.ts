@@ -47,9 +47,9 @@ export class GroupsController {
   }
 
   @Delete(':id')
-  @HttpCode(204)
-  async remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
-    await this.editor.remove(id);
+  async remove(@Param('id', ParseIntPipe) id: number): Promise<GroupResponse> {
+    const group = await this.editor.remove(id);
+    return { group };
   }
 }
 

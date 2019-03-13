@@ -28,6 +28,11 @@ export class CreateRoleTable1550707301079 implements MigrationInterface {
           type: 'boolean',
           default: false,
         },
+        {
+          name: 'isArchived',
+          type: 'boolean',
+          default: false,
+        },
       ],
     }), true);
 

@@ -22,4 +22,7 @@ export class Profile {
 
   @Column({ default: false })
   isFixed: boolean;
+
+  @Column({ default: false })
+  isArchived: boolean;
 }

@@ -46,7 +46,7 @@ export class UserEditService {
     }
   }
 
-  async update(id: number, data: User, options: EditOptions): Promise<User> {
+  async update(id: number, data: Partial<User>, options: EditOptions = { force: false }): Promise<User> {
     const user: User = await this.repository.findOne(id);
     if (user === undefined || (user.isFixed && !options.force)) { return; }
     this.repository.merge(user, data);
@@ -54,9 +54,7 @@ export class UserEditService {
   }
 
   async remove(id: number): Promise<User> {
-    const user: User = await this.repository.findOne(id);
-    if (user === undefined || user.isFixed) { return; }
-    return this.repository.remove(user);
+    return this.update(id, { isArchived: true });
   }
 }
 

@@ -28,7 +28,7 @@ export class GroupEditService {
     }
   }
 
-  async update(id: number, data: Group): Promise<Group> {
+  async update(id: number, data: Partial<Group>): Promise<Group> {
     const group: Group = await this.repository.findOne(id);
     if (group === undefined || group.isFixed) { return; }
     this.repository.merge(group, data);
@@ -36,9 +36,7 @@ export class GroupEditService {
   }
 
   async remove(id: number): Promise<Group> {
-    const group: Group = await this.repository.findOne(id);
-    if (group === undefined || group.isFixed) { return; }
-    return this.repository.remove(group);
+    return this.update(id, { isArchived: true });
   }
 }
 

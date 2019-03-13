@@ -38,6 +38,11 @@ export class CreateGroupTable1550705480954 implements MigrationInterface {
           type: 'boolean',
           default: false,
         },
+        {
+          name: 'isArchived',
+          type: 'boolean',
+          default: false,
+        },
       ],
     }), true);
 

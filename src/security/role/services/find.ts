@@ -1,7 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, In } from 'typeorm';
 import { Role } from '../entities/role';
+
+export interface RoleQueryOptions {
+  name: string;
+  isArchived: boolean;
+}
 
 @Injectable()
 export class RoleFindService {
@@ -18,8 +23,14 @@ export class RoleFindService {
     return this.repository.findOne({ name: 'guest' });
   }
 
-  async find(): Promise<Role[]> {
-    return this.repository.find();
+  async find(query?: RoleQueryOptions): Promise<Role[]> {
+    query = { ...query, isArchived: false };
+    return this.repository.find({ where: query });
+  }
+
+  async findByIds(ids: number[]): Promise<Role[]> {
+    if (ids.length === 0) { return []; }
+    return this.repository.find({ where: { id: In(ids), isArchived: false }});
   }
 }
 

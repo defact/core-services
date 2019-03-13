@@ -22,7 +22,7 @@ export class RoleEditService {
     }
   }
 
-  async update(id: number, data: Role): Promise<Role> {
+  async update(id: number, data: Partial<Role>): Promise<Role> {
     const role: Role = await this.repository.findOne(id);
     if (role === undefined || role.isFixed) { return; }
     this.repository.merge(role, data);
@@ -30,9 +30,7 @@ export class RoleEditService {
   }
 
   async remove(id: number): Promise<Role> {
-    const role: Role = await this.repository.findOne(id);
-    if (role === undefined || role.isFixed) { return; }
-    return this.repository.remove(role);
+    return this.update(id, { isArchived: true });
   }
 }
 
