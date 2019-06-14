@@ -17,7 +17,7 @@ export class SendGridMailer {
       text: data.message,
     };
 
-    sendgrid.send(mail);
+    await sendgrid.send(mail);
   }
 }
 

@@ -16,15 +16,16 @@
   },
 
   "database": {
-    "type": "postgres",
+    "type": "sqljs",
+    "location": "data",
     "host": "localhost",
     "port": 5432,
     "username": "postgres",
     "password": "",
     "database": "defacto",
     "entities": ["src/**/entities/**{.ts,.js}"],
-    "synchronize": false,
-    "logging": false,
+    "synchronize": true,
+    "logging": true,
     "migrations": ["migrations/*.ts"],
     "cli": {
       "migrationsDir": "migrations"

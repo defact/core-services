@@ -30,6 +30,12 @@ export class CreateProfileTable1550707315660 implements MigrationInterface {
           isNullable: true,
         },
         {
+          name: 'data',
+          type: 'json',
+          isNullable: true,
+          default: '\'{}\'',
+        },
+        {
           name: 'keyStart',
           type: 'bigint',
           isNullable: false,

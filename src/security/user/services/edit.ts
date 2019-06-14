@@ -31,12 +31,13 @@ export class UserEditService {
     data.password = this.hash.generate(data.password).hash;
     data.verificationCode = this.token.generate(8);
 
-    const group = await this.group.findDefault(); // TODO in context of logged in user
+    let group = await this.group.findDefault(); // TODO in context of logged in user
 
     data.key = group.key;
 
     try {
       const user = await this.repository.save(data);
+      
       return this.role.addDefault(user.id);
     } catch (err) {
       if (err instanceof QueryFailedError) {

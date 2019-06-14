@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { IsNotEmpty } from 'class-validator';
 import { Key } from '../../../security/common/key';
+import { Contact } from './contact';
 
 @Entity()
 export class Profile {
@@ -20,6 +21,12 @@ export class Profile {
   @Column(type => Key)
   key: Key;
 
+  @Column('simple-json', { default: '{}' })
+  data: any;
+
+  @OneToMany(type => Contact, contact => contact.profile)
+  contacts: Contact[];
+  
   @Column({ default: false })
   isFixed: boolean;
 

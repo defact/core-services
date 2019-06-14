@@ -17,7 +17,7 @@ export class ProfileEditService {
     const group = await this.group.findDefault();
     data.key = group.key; // TODO use context
 
-    return await this.repository.save(data);
+    return this.repository.save(data);
   }
 
   async update(id: number, data: Partial<Profile>): Promise<Profile> {

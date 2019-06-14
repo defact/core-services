@@ -12,7 +12,7 @@ export class Role {
   @IsNotEmpty()
   name: string;
 
-  @Column('json', { default: [] })
+  @Column('simple-json', { default: '[]' })
   claims: Claim[];
 
   @Column({ default: false })

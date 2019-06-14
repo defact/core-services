@@ -16,17 +16,17 @@ export class ProfileFindService {
   ) {}
 
   async findOne(id: number): Promise<Profile> {
-    return this.repository.findOne(id);
+    return this.repository.findOne(id, { relations: ['contacts'] });
   }
 
   async find(query?: ProfileQueryOptions): Promise<Profile[]> {
     query = { ...query, isArchived: false };
-    return this.repository.find({ where: query });
+    return this.repository.find({ where: query, relations: ['contacts'] });
   }
 
   async findByIds(ids: number[]): Promise<Profile[]> {
     if (ids.length === 0) { return []; }
-    return this.repository.find({ where: { id: In(ids), isArchived: false }});
+    return this.repository.find({ where: { id: In(ids), isArchived: false }, relations: ['contacts'] });
   }
 }
 

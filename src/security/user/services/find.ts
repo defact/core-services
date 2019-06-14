@@ -34,7 +34,7 @@ export class UserFindService {
 
   async findByIds(ids: number[]): Promise<User[]> {
     if (ids.length === 0) { return []; }
-    return this.repository.find({ where: { id: In(ids), isArchived: false, relations: ['roles'] }});
+    return this.repository.find({ where: { id: In(ids), isArchived: false }, relations: ['roles'] });
   }
 }
 

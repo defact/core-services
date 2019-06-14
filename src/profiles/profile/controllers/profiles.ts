@@ -15,7 +15,7 @@ export class ProfilesController {
   ) {}
 
   @Post()
-  // @UseGuards(new ClaimGuard('profile'))
+  @UseGuards(new ClaimGuard(Entity.Profile))
   async create(@Body() data: Profile): Promise<ProfileResponse> {
     const profile = await this.editor.create(data);
     return { profile };
