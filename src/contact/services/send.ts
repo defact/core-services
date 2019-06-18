@@ -31,10 +31,12 @@ export class SendMailService {
 
     if (data.to === undefined) data.to = this.config.get('mail:sender');
 
+    console.log(data);
+
     try {
       await this.sender.send(data);
     } catch (err) {
-
+      //
     }
     return await this.repository.save(data);
   }

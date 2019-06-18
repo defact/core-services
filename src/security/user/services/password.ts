@@ -23,7 +23,7 @@ export class PasswordService {
     user.password = this.hash.generate(password.password).hash;
     user.forceChangePassword = !!password.isTemporary;
 
-    return this.editor.update(user.id, user);
+    return this.editor.update(user.id, user, { force: true });
   }
 
   async reset(id: number): Promise<User> {

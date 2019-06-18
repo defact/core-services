@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { IsEmail, IsNotEmpty, IsDate } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsDate, IsOptional } from 'class-validator';
 
 @Entity()
 export class Message {
@@ -12,8 +12,8 @@ export class Message {
   from: string;
 
   @Column({ length: 128 })
+  @IsOptional()
   @IsEmail()
-  @IsNotEmpty()
   to: string;
 
   @Column({ length: 512 })
@@ -24,6 +24,6 @@ export class Message {
 
   @Column()
   @IsDate()
-  @IsNotEmpty()
+  @IsOptional()
   sentAt?: Date;
 }

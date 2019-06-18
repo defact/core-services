@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Delete, Body, Param, ParseIntPipe, NotFoundException, UseGuards, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Body, Param, ParseIntPipe, NotFoundException, UseGuards, HttpCode, Put } from '@nestjs/common';
 import { ClaimGuard, Entity, Right } from '../../../security/common/claim';
 import { ProfileContactsService } from '../services/contacts';
 import { Contact } from '../entities/contact';
@@ -25,11 +25,19 @@ export class ProfileContactsController {
     return { contact };
   }
 
-  @Delete('/:contact')
+  @Put('/:cid')
+  @UseGuards(new ClaimGuard(Entity.User, Right.Update))
+  async update(@Param('id', ParseIntPipe) id: number, @Param('cid', ParseIntPipe) cid: number, @Body() data: any): Promise<ContactResponse> {
+    const contact = await this.contacts.update(id, cid, data);
+    if (contact === undefined) { throw new NotFoundException('Contact not found'); }
+    return { contact };
+  }
+
+  @Delete('/:cid')
   @HttpCode(204)
   @UseGuards(new ClaimGuard(Entity.User, Right.Update))
-  async remove(@Param('id', ParseIntPipe) id: number, @Param('contact', ParseIntPipe) contact: number): Promise<void> {
-    await this.contacts.remove(id, contact);
+  async remove(@Param('id', ParseIntPipe) id: number, @Param('cid', ParseIntPipe) cid: number): Promise<void> {
+    await this.contacts.remove(id, cid);
   }
 }
 

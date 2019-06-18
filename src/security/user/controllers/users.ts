@@ -3,6 +3,7 @@ import { ClaimGuard, Entity } from '../../common/claim';
 import { UserFindService, UserQueryOptions } from '../services/find';
 import { UserEditService } from '../services/edit';
 import { User } from '../entities/user';
+import { Key } from '../../../common/decorators';
 
 interface UserResponse { user: User; }
 interface UsersResponse { users: User[]; }
@@ -23,8 +24,8 @@ export class UsersController {
 
   @Get()
   @UseGuards(new ClaimGuard(Entity.User))
-  async find(@Query() query: UserQueryOptions): Promise<UsersResponse> {
-    const users = await this.finder.find(query);
+  async find(@Query() query: UserQueryOptions, @Key() key): Promise<UsersResponse> {
+    const users = await this.finder.find({ ...query, key });
     return { users };
   }
 

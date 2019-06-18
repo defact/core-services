@@ -2,10 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, In } from 'typeorm';
 import { User } from '../entities/user';
+import { Key } from '../../common/key';
 
-export interface UserQueryOptions {
+export class UserQueryOptions {
   email: string;
   isArchived: boolean;
+  key: Key
 }
 
 @Injectable()
@@ -29,7 +31,7 @@ export class UserFindService {
 
   async find(query?: UserQueryOptions): Promise<User[]> {
     query = { ...query, isArchived: false };
-    return this.repository.find({ where: query, relations: ['roles'] });
+    return this.repository.find({ where: Key.toWhere(query), relations: ['roles'] });
   }
 
   async findByIds(ids: number[]): Promise<User[]> {

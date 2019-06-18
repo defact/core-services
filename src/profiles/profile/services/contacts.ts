@@ -27,6 +27,19 @@ export class ProfileContactsService {
     return this.repository.save(contact);
   }
 
+  async update(pid: number, cid: number, data: Contact): Promise<Contact> {
+    const profile = await this.finder.findOne(pid);
+
+    // if (profile === undefined || profile.isFixed) { return; }
+
+    const contact: Contact = await this.repository.findOne(cid);
+
+    if (contact === undefined) { return; }
+
+    this.repository.merge(contact, data);
+    return this.repository.save(contact);
+  }
+
   async remove(pid: number, cid: number): Promise<void> {
     const profile = await this.finder.findOne(pid);
 
