@@ -9,8 +9,8 @@ export class InsertDefaultData1550707357383 implements MigrationInterface {
     const systemGroup = await queryRunner.query(`INSERT INTO "group" ("name", "keyStart", "keyEnd", "isFixed") VALUES ('System', 0, 9999999999999999, TRUE) RETURNING id`);
     const guestGroup = await queryRunner.query(`INSERT INTO "group" ("name", "keyStart", "keyEnd", "parentId", "isFixed") VALUES ('Guest', 0, 99999999999999, $1, TRUE)`, [ systemGroup[0].id ]);
 
-    const systemRole = await queryRunner.query(`INSERT INTO "role" ("name", "claims", "isFixed") VALUES ('system', '[{"entity":"user","right":15},{"entity":"group","right":15}]', TRUE) RETURNING id`);
-    const guestRole = await queryRunner.query(`INSERT INTO "role" ("name", "claims", "isFixed") VALUES ('guest', '[{"entity":"user","right":3}]', TRUE) RETURNING id`);
+    const systemRole = await queryRunner.query(`INSERT INTO "role" ("name", "claims", "isFixed") VALUES ('system', '[{"entity":"user","right":15},{"entity":"group","right":15},{"entity":"profile","right":15}]', TRUE) RETURNING id`);
+    const guestRole = await queryRunner.query(`INSERT INTO "role" ("name", "claims", "isFixed") VALUES ('guest', '[{"entity":"user","right":3},{"entity":"profile","right":3}]', TRUE) RETURNING id`);
 
     const systemUser = await queryRunner.query(`INSERT INTO "user" ("email", "password", "keyStart", "keyEnd", "isFixed") VALUES ('system@recipher.co.uk', $1, 0, 9999999999999999, TRUE) RETURNING id`, [ hash.generate('password').hash ]);
     const guestUser = await queryRunner.query(`INSERT INTO "user" ("email", "password", "keyStart", "keyEnd", "isFixed") VALUES ('guest@recipher.co.uk', $1, 0, 99999999999999, TRUE) RETURNING id`, [ hash.generate('password').hash ]);
