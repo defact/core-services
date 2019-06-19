@@ -1,6 +1,7 @@
 {
   "type": "postgres",
   "location": "data",
+  "autoSave": true,
   "host": "localhost",
   "port": 5432,
   "username": "postgres",
