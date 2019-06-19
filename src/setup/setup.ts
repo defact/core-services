@@ -11,7 +11,8 @@ import { Hasher } from '../common/helpers/hash';
 import { range } from 'lodash';
 
 import faker = require('faker');
-import Bluebird = require('bluebird');
+import { Claim, Entity, Right } from 'dist/src/security/common/claim';
+import { Permission } from 'src/security/common/claim';
 
 interface Member {
   email: string;
@@ -67,8 +68,8 @@ export class SetupService implements OnApplicationBootstrap {
     const sys = await this.groupRepository.save({ name: 'System', key: SYSTEM_KEY, isFixed: true });
     await this.groupRepository.save({ name: 'Guest', parent: sys, key: GUEST_KEY, isFixed: true });
     
-    const systemClaims = [{ entity: 'user', right: 15 }, { entity: 'group', right: 15 }, { entity: 'profile', right: 15 }];
-    const guestClaims = [{ entity: 'user', right: 3 }, { entity: 'profile', right: 3 }];
+    const systemClaims: Claim[] = [{ entity: Entity.User, right: 15 }, { entity: Entity.Group, right: 15 }, { entity: Entity.Profile, right: 15 }];
+    const guestClaims: Claim[] = [{ entity: Entity.User, right: 3 }, { entity: Entity.Profile, right: 3 }];
 
     const system = await this.roleRepository.save({ name: 'system', isFixed: true, claims: systemClaims });
     const guest = await this.roleRepository.save({ name: 'guest', isFixed: true, claims: guestClaims });
