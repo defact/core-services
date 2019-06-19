@@ -23,7 +23,6 @@
     "port": 5432,
     "username": "postgres",
     "password": "",
-    "database": "defacto",
     "entities": ["src/**/entities/**{.ts,.js}"],
     "synchronize": true,
     "logging": true,
