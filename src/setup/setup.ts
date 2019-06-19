@@ -7,12 +7,11 @@ import { User } from '../security/user/entities/user';
 import { Profile } from '../profiles/profile/entities/profile';
 import { Access } from '../membership/entities/access';
 import { Key } from '../security/common/key';
+import { Claim, Entity } from '../security/common/claim';
 import { Hasher } from '../common/helpers/hash';
 import { range } from 'lodash';
 
 import faker = require('faker');
-import { Claim, Entity, Right } from 'dist/src/security/common/claim';
-import { Permission } from 'src/security/common/claim';
 
 interface Member {
   email: string;
