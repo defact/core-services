@@ -14,8 +14,8 @@ export class VerificationCodeService {
     private readonly token: Tokenizer,
   ) {}
 
-  async reset(id: number): Promise<User> {
-    const user = await this.finder.findOne(id);
+  async reset(email: string): Promise<User> {
+    const user = await this.finder.findOneByEmail(email);
     if (user === undefined) { return; }
 
     const verificationCode: string = this.token.generate(8);

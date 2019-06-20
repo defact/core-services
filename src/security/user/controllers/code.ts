@@ -1,20 +1,14 @@
-import { Controller, Put, Param, ParseIntPipe, UseGuards, NotFoundException, HttpCode } from '@nestjs/common';
-import { ClaimGuard, Entity, Right } from '../../common/claim';
+import { Controller, Post, Param, HttpCode } from '@nestjs/common';
 import { VerificationCodeService } from '../services/code';
-import { User } from '../entities/user';
 
-interface UserResponse { user: User; }
-
-@Controller('users/:id/code')
+@Controller('users/:email/code')
 export class VerificationCodeController {
   constructor(private readonly code: VerificationCodeService) {}
 
-  @Put()
+  @Post()
   @HttpCode(204)
-  @UseGuards(new ClaimGuard(Entity.User, Right.Update))
-  async reset(@Param('id', ParseIntPipe) id: number): Promise<void> {
-    const user = await this.code.reset(id);
-    if (user === undefined) { throw new NotFoundException('User not found'); }
+  async reset(@Param('email') email: string): Promise<void> {
+    await this.code.reset(email);
   }
 }
 
