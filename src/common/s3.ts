@@ -1,11 +1,13 @@
 import { HttpException } from '@nestjs/common';
-import { extname } from 'path'
+import { extname, join } from 'path'
 import { S3 } from 'aws-sdk';
 import * as multer from 'multer-s3';
 import ConfigurationService from 'src/configuration/service';
 
 const config = new ConfigurationService();
 const s3config = { ...config.get('s3') };  // TODO move to dynamic module
+
+const environment = process.env.NODE_ENV || 'development';
 
 export const options = {
   limits: {
@@ -22,7 +24,7 @@ export const options = {
     acl: 'public-read',
     key: function (request, file, done) {
       const randomName = Array(32).fill(null).map(() => (Math.round(Math.random() * 16)).toString(16)).join('')
-      return done(null, `${randomName}${extname(file.originalname)}`)    
+      return done(null, join(environment, `${randomName}${extname(file.originalname)}`))    
     },
   })
 };
