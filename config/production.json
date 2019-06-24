@@ -1,2 +1,6 @@
 {
+  "s3": {
+    "endpoint": "ams3.digitaloceanspaces.com",
+    "bucket": "d-mentor"
+  }
 }

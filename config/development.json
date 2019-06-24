@@ -11,6 +11,11 @@
     "apikey": "xyz"
   },
 
+  "s3": {
+    "endpoint": "ams3.digitaloceanspaces.com",
+    "bucket": "d-mentor"
+  },
+
   "mail": {
     "sender": "johnny@recipher.co.uk"
   },
@@ -18,7 +23,7 @@
   "database": {
     "type": "sqljs",
     "location": "data",
-    "autoSave": true,
+    "autoSave": false,
     "host": "localhost",
     "port": 5432,
     "username": "postgres",

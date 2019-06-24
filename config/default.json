@@ -6,7 +6,7 @@
   },
 
   "providers": {
-    "mail": "sendgrid"
+    "mail": "console"
   },
   
   "sendgrid": { 
