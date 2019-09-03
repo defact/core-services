@@ -21,7 +21,7 @@
   },
 
   "database": {
-    "type": "sqljs",
+    "type": "postgres",
     "location": "data",
     "autoSave": false,
     "host": "localhost",
@@ -29,7 +29,7 @@
     "username": "postgres",
     "password": "",
     "entities": ["src/**/entities/**{.ts,.js}"],
-    "synchronize": true,
+    "synchronize": false,
     "logging": true,
     "migrations": ["migrations/*.ts"],
     "cli": {

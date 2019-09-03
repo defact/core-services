@@ -5,6 +5,7 @@ import { Profile } from '../entities/profile';
 
 export interface ProfileQueryOptions {
   name: string;
+  classifier: string;
   isArchived: boolean;
 }
 

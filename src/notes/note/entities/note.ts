@@ -30,7 +30,7 @@ export class Note {
   @Column({ default: false })
   isCancelled: boolean;
 
-  @Column()
+  @Column({ nullable: true })
   cancelledAt: Date;
 
   @ManyToOne(type => User)

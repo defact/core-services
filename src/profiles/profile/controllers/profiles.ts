@@ -1,6 +1,6 @@
-import { Controller, Get, Post, Put, Patch, Delete, Body, Param, HttpCode, ParseIntPipe, UseGuards, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Post, Put, Patch, Delete, Body, Param, HttpCode, ParseIntPipe, UseGuards, NotFoundException, Query } from '@nestjs/common';
 import { ClaimGuard, Entity } from '../../../security/common/claim';
-import { ProfileFindService } from '../services/find';
+import { ProfileFindService, ProfileQueryOptions } from '../services/find';
 import { ProfileEditService } from '../services/edit';
 import { Profile } from '../entities/profile';
 
@@ -23,8 +23,8 @@ export class ProfilesController {
 
   @Get()
   @UseGuards(new ClaimGuard(Entity.Profile))
-  async find(): Promise<ProfilesResponse> {
-    const profiles = await this.finder.find();
+  async find(@Query() query: ProfileQueryOptions): Promise<ProfilesResponse> {
+    const profiles = await this.finder.find(query);
     return { profiles };
   }
 

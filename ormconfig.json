@@ -1,5 +1,5 @@
 {
-  "type": "sqljs",
+  "type": "postgres",
   "location": "data",
   "autoSave": true,
   "host": "localhost",

@@ -16,6 +16,7 @@ import faker = require('faker');
 interface Member {
   email: string;
   name: string;
+  classifier: string;
   isFixed: boolean;
   role: Role;
   key: Key;
@@ -46,12 +47,12 @@ export class SetupService implements OnApplicationBootstrap {
   async member(data: Member): Promise<void> {
     const hash = new Hasher();
     
-    const { email, name, isFixed, role, key } = data;
+    const { email, name, isFixed, role, key, classifier } = data;
 
     const password = hash.generate(name.toLowerCase()).hash;
 
     await this.userRepository.save({ email, isFixed, password, key });
-    await this.profileRepository.save({ name, isFixed, key });
+    await this.profileRepository.save({ name, classifier, isFixed, key });
 
     // Workaround for sqljs
     const user = await this.userRepository.findOne({ email });
@@ -73,8 +74,8 @@ export class SetupService implements OnApplicationBootstrap {
     const system = await this.roleRepository.save({ name: 'system', isFixed: true, claims: systemClaims });
     const guest = await this.roleRepository.save({ name: 'guest', isFixed: true, claims: guestClaims });
 
-    await this.member({ email: 'system@recipher.co.uk', name: 'System', isFixed: true, role: system, key: SYSTEM_KEY });
-    await this.member({ email: 'guest@recipher.co.uk', name: 'Guest', isFixed: true, role: guest, key: GUEST_KEY });
+    await this.member({ email: 'system@recipher.co.uk', name: 'System', classifier: 'staff', isFixed: true, role: system, key: SYSTEM_KEY });
+    await this.member({ email: 'guest@recipher.co.uk', name: 'Guest', classifier: 'staff', isFixed: true, role: guest, key: GUEST_KEY });
   }
 
   async setup(): Promise<void> {
@@ -85,13 +86,17 @@ export class SetupService implements OnApplicationBootstrap {
 
     const guest = await this.roleRepository.findOne({ name: 'guest' });
 
-    const member = async () => {
+    const staff = () => member('staff');
+    const patient = () => member('patient');
+
+    const member = async (classifier: string) => {
       const email = faker.internet.email().toLowerCase();
       const name = faker.name.findName();
-      return await this.member({ email, name, isFixed: false, role: guest, key: GUEST_KEY });
+      return await this.member({ email, name, classifier, isFixed: false, role: guest, key: GUEST_KEY });
     };
 
-    await Promise.all(range(50).map(member)).catch(err => console.log(err));
+    await Promise.all(range(25).map(staff)).catch(err => console.log(err));
+    await Promise.all(range(25).map(patient)).catch(err => console.log(err));
   }
 }
 

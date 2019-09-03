@@ -10,6 +10,7 @@ import { MembershipModule } from './membership/module';
 import { ContactModule } from './contact/module';
 import { NotesModule } from './notes/module';
 import { TagsModule } from './tags/module';
+import { CareModule } from './care/module';
 import { SetupModule } from './setup/module';
 
 const config = new ConfigurationService();
@@ -25,6 +26,7 @@ const dbConfig = { ...config.get('database') };  // TODO move to dynamic module
     ContactModule,
     TagsModule,
     NotesModule,
+    CareModule,
     CommonModule,
     SetupModule,
     ConfigurationModule,

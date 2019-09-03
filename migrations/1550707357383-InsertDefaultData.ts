@@ -18,8 +18,8 @@ export class InsertDefaultData1550707357383 implements MigrationInterface {
     await queryRunner.query(`INSERT INTO "user_roles_role" ("userId", "roleId") VALUES ($1, $2)`, [ systemUser[0].id, systemRole[0].id ]);
     await queryRunner.query(`INSERT INTO "user_roles_role" ("userId", "roleId") VALUES ($1, $2)`, [ guestUser[0].id, guestRole[0].id ]);
 
-    const systemProfile = await queryRunner.query(`INSERT INTO "profile" ("name", "keyStart", "keyEnd", "isFixed") VALUES ('System', 0, 9999999999999999, TRUE) RETURNING id`);
-    const guestProfile = await queryRunner.query(`INSERT INTO "profile" ("name", "keyStart", "keyEnd", "isFixed") VALUES ('Guest', 0, 99999999999999, TRUE) RETURNING id`);
+    const systemProfile = await queryRunner.query(`INSERT INTO "profile" ("name", "keyStart", "keyEnd", "isFixed", "classifier") VALUES ('System', 0, 9999999999999999, TRUE, 'staff') RETURNING id`);
+    const guestProfile = await queryRunner.query(`INSERT INTO "profile" ("name", "keyStart", "keyEnd", "isFixed", "classifier") VALUES ('Guest', 0, 99999999999999, TRUE, 'staff') RETURNING id`);
 
     await queryRunner.query(`INSERT INTO "access" ("user", "profile") VALUES ($1, $2)`, [ systemUser[0].id, systemProfile[0].id ]);
     await queryRunner.query(`INSERT INTO "access" ("user", "profile") VALUES ($1, $2)`, [ guestUser[0].id, guestProfile[0].id ]);

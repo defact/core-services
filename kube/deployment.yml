@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: services
+  namespace: default
+  labels:
+    app: services
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: services
+  template:
+    metadata:
+      labels:
+        app: services
+    spec:
+      containers:
+        - name: services
+          image: recipher/services:latest
+          ports:
+            - containerPort: 4200
+              name: http

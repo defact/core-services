@@ -14,6 +14,7 @@ export class NoteEditService {
     data.recordedAt = new Date;
 
     if (data.date === undefined) data.date = data.recordedAt;
+    if (data.tags === undefined) data.tags = [];
 
     return await this.repository.save(data);
   }
